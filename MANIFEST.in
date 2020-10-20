@@ -1,0 +1,6 @@
+include LICENSE.rst
+include myapp/schema.sql
+graft myapp/static
+graft myapp/templates
+graft tests
+global-exclude *.pyc
