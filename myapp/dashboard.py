@@ -27,5 +27,5 @@ def index():
 def profile():
     if session.get("usuario_logado") is not None:
         usuario_logado = json.loads(session.get("usuario_logado"))
-        return render_template("dashboard/profile.html", usuario = usuario_logado["username"], profilePic=usuario_logado["imagem"], titulo="Profile")
+        return render_template("dashboard/profile.html", usuario = usuario_logado["username"], profilePic=usuario_logado["imagem"], titulo="Profile", nome = usuario_logado["nome_completo"])
     return redirect(url_for("auth.login"))

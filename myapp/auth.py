@@ -48,6 +48,8 @@ def register():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        name = request.form["full_name"]
+
         db = get_db()
         error = None
 
@@ -65,8 +67,8 @@ def register():
             # the name is available, store it in the database and go to
             # the login page
             db.execute(
-                "INSERT INTO user (username, password) VALUES (?, ?)",
-                (username, generate_password_hash(password)),
+                "INSERT INTO user (username, password, name) VALUES (?, ?, ?)",
+                (username, generate_password_hash(password), name),
             )
             db.commit()
             return redirect(url_for("auth.login"))
@@ -98,7 +100,7 @@ def login():
             session.clear()
             session["user_id"] = user["id"]
             # No caso do flask e preciso fazer o encode de um objeto para um json
-            session["usuario_logado"] = MyEncoder().encode(Usuario(user["id"], '', user["username"], user["password"], 'anonymous2.png'))
+            session["usuario_logado"] = MyEncoder().encode(Usuario(user["id"], user["name"], user["username"], user["password"], 'anonymous2.png'))
             return redirect(url_for("index"))
 
         flash(error)
