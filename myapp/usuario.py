@@ -16,19 +16,17 @@ bp = Blueprint("usuario", __name__, url_prefix="/usuario")
 
 """ Mostra a lista de usuarios  """
 @bp.route("/listar")
+@login_required
 def listar():
-    if session.get("usuario_logado"):
-        usuario_logado = json.loads(session.get("usuario_logado"))
+    usuario_logado = json.loads(session.get("usuario_logado"))
         
-        #Carrega usuarios registrados no sistema
-        db = get_db()
-        lista_usuarios = db.execute(
+    #Carrega usuarios registrados no sistema
+    db = get_db()
+    lista_usuarios = db.execute(
             'SELECT *'
             ' FROM user'
             ' ORDER BY id'
-        ).fetchall()
+    ).fetchall()
         
-        return render_template("usuario/listar.html", usuario = usuario_logado["username"], 
+    return render_template("usuario/listar.html", usuario = usuario_logado["username"], 
             profilePic=usuario_logado["imagem"], titulo="Lista de Usuários", usuarios=lista_usuarios)
-    
-    return redirect(url_for("auth.login"))

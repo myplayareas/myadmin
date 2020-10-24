@@ -16,24 +16,19 @@ bp = Blueprint("dashboard", __name__)
 
 """Show the user dashboard """
 @bp.route("/")
+@login_required
 def index():
-    if session.get("usuario_logado"):
-        usuario_logado = json.loads(session.get("usuario_logado"))
-
-        #Carrega usuarios registrados no sistema
-        #Carregas as notas do usuario logado
-        
-        return render_template("dashboard/starter.html", usuario = usuario_logado["username"], 
+    usuario_logado = json.loads(session.get("usuario_logado"))
+    #Carrega usuarios registrados no sistema
+    #Carregas as notas do usuario logado
+    return render_template("dashboard/starter.html", usuario = usuario_logado["username"], 
             profilePic=usuario_logado["imagem"], titulo="Starter Page")
-    
-    return redirect(url_for("auth.login"))
 
 """Show the user profile """
 @bp.route("/profile")
+@login_required
 def profile():
-    if session.get("usuario_logado"):
-        usuario_logado = json.loads(session.get("usuario_logado"))
-        return render_template("dashboard/profile.html", usuario = usuario_logado["username"], 
+    usuario_logado = json.loads(session.get("usuario_logado"))
+    return render_template("dashboard/profile.html", usuario = usuario_logado["username"], 
             profilePic=usuario_logado["imagem"], titulo="Profile", nome = usuario_logado["nome_completo"])
-    
-    return redirect(url_for("auth.login"))
+
