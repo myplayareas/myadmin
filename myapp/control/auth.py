@@ -103,7 +103,7 @@ def login():
             session["user_id"] = user["id"]
             # No caso do flask e preciso fazer o encode de um objeto para um json
             # Obs: no Flask as sessoes guardam uma estrutura de dicionario
-            session["usuario_logado"] = MyEncoder().encode(Usuario(user["id"], user["name"], user["username"], user["password"], 'anonymous2.png'))
+            session["usuario_logado"] = MyEncoder().encode(Usuario(user["id"], user["name"], user["username"], user["password"], user["image"]))
             return redirect(url_for("index"))
 
         flash(error)
