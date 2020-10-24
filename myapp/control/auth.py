@@ -11,9 +11,9 @@ from flask import url_for
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
 
-from myapp.db import get_db
-from myapp.entidades import Usuario
-from myapp.entidades import MyEncoder
+from myapp.config.db import get_db
+from myapp.model.entidades import Usuario
+from myapp.model.entidades import MyEncoder
 
 bp = Blueprint("auth", __name__)
 

@@ -29,14 +29,14 @@ def create_app(test_config=None):
         return "Aplicacao Web Python usando Flask"
 
     # register the database commands
-    from myapp import db
+    from myapp.config import db
 
     db.init_app(app)
 
     # apply the blueprints to the app
-    from myapp import auth
-    from myapp import dashboard
-    from myapp import usuario
+    from myapp.control import auth
+    from myapp.control import dashboard
+    from myapp.control import usuario
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(dashboard.bp)

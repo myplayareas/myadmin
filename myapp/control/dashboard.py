@@ -8,8 +8,8 @@ from flask import url_for
 from werkzeug.exceptions import abort
 from flask import session
 
-from myapp.auth import login_required
-from myapp.db import get_db
+from myapp.control.auth import login_required
+from myapp.config.db import get_db
 import json
 
 bp = Blueprint("dashboard", __name__)
