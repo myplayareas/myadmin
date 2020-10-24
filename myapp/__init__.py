@@ -29,21 +29,20 @@ def create_app(test_config=None):
         return "Aplicacao Web Python usando Flask"
 
     # register the database commands
-    from myapp import db
+    from myapp.config import db
 
     db.init_app(app)
 
     # apply the blueprints to the app
-    from myapp import auth
-    from myapp import dashboard
+    from myapp.control import auth
+    from myapp.control import dashboard
+    from myapp.control import usuario
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(dashboard.bp)
+    app.register_blueprint(usuario.bp)
 
-    # make url_for('index') == url_for('blog.index')
-    # in another app, you might define a separate main index here with
-    # app.route, while giving the blog blueprint a url_prefix, but for
-    # the tutorial the blog will be the main index
+    # Define a rota principal da aplicacao
     app.add_url_rule("/", endpoint="index")
 
     return app

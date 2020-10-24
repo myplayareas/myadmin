@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block conteudo %}
+
+    <!-- Main content -->
+    <div class="content">
+
+      <section class="content">
+        <div class="container-fluid">
+
+          <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">DataTable with default features</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row">
+                  <div class="col-sm-12 col-md-6">
+                    <div class="dataTables_length" id="example1_length">
+                        <label>Show
+                          <select name="example1_length" aria-controls="example1" class="custom-select custom-select-sm form-control form-control-sm">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                          </select>
+                        </label>
+                    </div>
+                  </div>
+                  </div>
+                    <div class="row">
+                    <div class="col-sm-12">
+                      <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+                        <thead>
+                          <tr role="row">
+                            <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Id: activate to sort column descending" aria-sort="ascending">ID</th>
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Nome: activate to sort column ascending">Nome</th>
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Usuario: activate to sort column ascending">Usuario</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          {% for item in usuarios %}
+                          <tr role="row" class="even">
+                            <td tabindex="0" class="sorting_1">{{ item["id"] }}</td>
+                            <td>{{ item["name"] }}</td>
+                            <td>{{ item["username"] }}</td>
+                          </tr>
+                          {% endfor%}
+
+                        </tbody>
+                    </table>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-body -->
+          </div>
+
+        </div><!-- /.container-fluid -->
+      </section>
+
+    </div>
+    <!-- /.content -->
+
+{% endblock %} 

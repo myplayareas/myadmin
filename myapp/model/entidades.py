@@ -3,18 +3,18 @@ from json import JSONEncoder
 # Define a Classe Usuario
 class Usuario:
     id = 0
-    nome_completo = ''
+    name = ''
     username = ''
     password = ''
-    imagem = ''
+    image = ''
 
     # Construtor da classe
-    def __init__(self,id, fullname, username,password, image):
+    def __init__(self,id, fullname, username, password, image):
         self.id = id
-        self.nome_completo = fullname
+        self.name = fullname
         self.username = username
         self.password = password
-        self.imagem = image
+        self.image = image
 
 # Classe que converte Objeto em JSON
 class MyEncoder(JSONEncoder):
