@@ -11,6 +11,7 @@ from flask import session
 from myapp.control.auth import login_required
 from myapp.config.db import get_db
 import json
+from myapp.model.entidades import Usuario
 
 bp = Blueprint("usuario", __name__, url_prefix="/usuario")
 
@@ -19,14 +20,15 @@ bp = Blueprint("usuario", __name__, url_prefix="/usuario")
 @login_required
 def listar():
     usuario_logado = json.loads(session.get("usuario_logado"))
-        
+
+    # Converte para objeto
+    usuario = Usuario( usuario_logado["id"], usuario_logado["name"], usuario_logado["username"], 
+            usuario_logado["password"], usuario_logado["image"])
+
     #Carrega usuarios registrados no sistema
     db = get_db()
-    lista_usuarios = db.execute(
-            'SELECT *'
-            ' FROM user'
-            ' ORDER BY id'
-    ).fetchall()
+    query = "SELECT * FROM user ORDER BY id"
+    lista_usuarios = db.execute( query ).fetchall()
         
-    return render_template("usuario/listar.html", usuario = usuario_logado["username"], 
-            profilePic=usuario_logado["imagem"], titulo="Lista de Usuários", usuarios=lista_usuarios)
+    return render_template("usuario/listar.html", usuario = usuario.username, 
+            profilePic=usuario.image, titulo="Lista de Usuários", usuarios=lista_usuarios)

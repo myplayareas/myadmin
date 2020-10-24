@@ -5,6 +5,7 @@ import click
 from flask import current_app, g
 from flask.cli import with_appcontext
 
+# Pega a conexao do banco de dados
 def get_db():
     if 'db' not in g:
         g.db = sqlite3.connect(
@@ -15,20 +16,22 @@ def get_db():
 
     return g.db
 
+# Fecha a conexao do banco de dados
 def close_db(e=None):
     db = g.pop('db', None)
 
     if db is not None:
         db.close()
 
+# Inicializa o banco de dados baseado no esquema passado
 def init_db():
     db = get_db()
 
     with current_app.open_resource('config/schema.sql') as f:
         db.executescript(f.read().decode('utf8'))
-        print("O esquema do banco foi carregad com sucesso!")
+        print("O esquema do banco foi carregado com sucesso!")
 
-
+# Executa o scrip do banco via init_db()
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
@@ -36,6 +39,7 @@ def init_db_command():
     init_db()
     click.echo('Initialized the database.')
 
+# Inicializa a aplicacao 
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
