@@ -13,7 +13,7 @@
               <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
                   <div class="text-center">
-                    <img class="profile-user-img img-fluid img-circle" src="{{ url_for('static', filename='dist/img/' + profilePic) }}" alt="User profile picture">
+                    <img class="profile-user-img img-fluid img-circle" src="{{ url_for('static', filename='uploads/' + profilePic) }}" alt="User profile picture">
                   </div>
   
                   <h3 class="profile-username text-center">{{usuario}} </h3>
@@ -186,7 +186,7 @@
                     <!-- /.tab-pane -->
   
                     <div class="active tab-pane" id="settings">
-                      <form class="form-horizontal" action="{{ id + '/salva' }}" method="post">
+                      <form class="form-horizontal" action="{{ id + '/salva' }}" method="post" enctype="multipart/form-data">
                         <div class="form-group row">
                           <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                           <div class="col-sm-10">
@@ -200,6 +200,14 @@
                             <input type="email" class="form-control" id="inputEmail" placeholder="Email" value={{usuario}} name="email">
                           </div>
                         </div>
+
+                        <div class="form-group row">
+                          <label for="inputArquivo" class="col-sm-2 col-form-label">Arquivo</label>
+                          <div class="col-sm-10">
+                            <input type="file" class="form-control" name="arquivo">
+                          </div>
+                        </div>
+
                         <div class="form-group row">
                           <div class="offset-sm-2 col-sm-10">
                             <button type="submit" class="btn btn-primary">Salvar</button>
