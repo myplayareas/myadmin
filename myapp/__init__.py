@@ -37,10 +37,12 @@ def create_app(test_config=None):
     from myapp.control import auth
     from myapp.control import dashboard
     from myapp.control import usuario
+    from myapp.control import repositorio
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(dashboard.bp)
     app.register_blueprint(usuario.bp)
+    app.register_blueprint(repositorio.bp)
 
     # Define a rota principal da aplicacao
     app.add_url_rule("/", endpoint="index")

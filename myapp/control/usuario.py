@@ -31,4 +31,4 @@ def listar():
     lista_usuarios = db.execute( query ).fetchall()
         
     return render_template("usuario/listar.html", usuario = usuario.username, 
-            profilePic=usuario.image, titulo="Lista de Usuários", usuarios=lista_usuarios)
+            profilePic=usuario.image, titulo="Usuários", usuarios=lista_usuarios)
