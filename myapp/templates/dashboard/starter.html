@@ -58,7 +58,7 @@
           <!-- /.col -->
         </div>
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-6">
             <!-- Members-->
             <div class="card">
               <div class="card-header">
@@ -75,21 +75,13 @@
               <!-- /.card-header -->
               <div class="card-body p-0">
                 <ul class="users-list clearfix">
+                {% for item in usuarios%}
                   <li>
-                    <img src="/static/dist/img/user1-128x128.jpg" alt="User Image">
-                    <a class="users-list-name" href="#">Alexander Pierce</a>
-                    <span class="users-list-date">Today</span>
+                    <img src="{{ url_for('static', filename='uploads/' + item["image"]) }}" alt="User Image" class="img-size-50">
+                    <a class="users-list-name" href="#">{{ item["name"]}}</a>
+                    <span class="users-list-name">{{ item["username"] }}</span>
                   </li>
-                  <li>
-                    <img src="/static/dist/img/user8-128x128.jpg" alt="User Image">
-                    <a class="users-list-name" href="#">Norman</a>
-                    <span class="users-list-date">Yesterday</span>
-                  </li>
-                  <li>
-                    <img src="/static/dist/img/user7-128x128.jpg" alt="User Image">
-                    <a class="users-list-name" href="#">Jane</a>
-                    <span class="users-list-date">12 Jan</span>
-                  </li>
+                {% endfor %}
                 </ul>
                 <!-- /.users-list -->
               </div>
@@ -102,10 +94,10 @@
 
           </div>
 
-          <div class="col-md-4">
+          <div class="col-md-6">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Recently Added Products</h3>
+                <h3 class="card-title">Lista de Repositórios</h3>
 
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -119,37 +111,26 @@
               <!-- /.card-header -->
               <div class="card-body p-0">
                 <ul class="products-list product-list-in-card pl-2 pr-2">
+                {% for item in repositorios %}
                   <li class="item">
                     <div class="product-img">
                       <img src="/static/dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
                     </div>
                     <div class="product-info">
-                      <a href="javascript:void(0)" class="product-title">Samsung TV
-                        <span class="badge badge-warning float-right">$1800</span></a>
+                      <a href="javascript:void(0)" class="product-title">{{ item['name'] }}
+                        <span class="badge badge-warning float-right">1800</span></a>
                       <span class="product-description">
-                        Samsung 32" 1080p 60Hz LED Smart HDTV.
+                        {{ item['link'] }}
                       </span>
                     </div>
                   </li>
-                  <!-- /.item -->
-                  <li class="item">
-                    <div class="product-img">
-                      <img src="/static/dist/img/default-150x150.png" alt="Product Image" class="img-size-50">
-                    </div>
-                    <div class="product-info">
-                      <a href="javascript:void(0)" class="product-title">Bicycle
-                        <span class="badge badge-info float-right">$700</span></a>
-                      <span class="product-description">
-                        26" Mongoose Dolomite Men's 7-speed, Navy Blue.
-                      </span>
-                    </div>
-                  </li>
+                  {% endfor %}
                   <!-- /.item -->
                 </ul>
               </div>
               <!-- /.card-body -->
               <div class="card-footer text-center">
-                <a href="javascript:void(0)" class="uppercase">View All Products</a>
+                <a href="javascript:void(0)" class="uppercase">View All Repositories</a>
               </div>
               <!-- /.card-footer -->
             </div>

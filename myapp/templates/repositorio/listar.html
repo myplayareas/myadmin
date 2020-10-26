@@ -9,29 +9,44 @@
 
           <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Lista de Usuários Registrados</h3>
+                <h3 class="card-title">Lista dos meus Repositórios</h3>
               </div>
+              
               <!-- /.card-header -->
               <div class="card-body">
                 <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4"><div class="row">
                   </div>
                     <div class="row">
                     <div class="col-sm-12">
+
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div id="Opcoes">
+                            <label>Opcoes</label>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div id="Acoes">
+                            <a href="{{ url_for('repositorio.criar')}}">[ Novo ]</a>
+                          </div>
+                        </div>
+                      </div>
+
                       <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
                         <thead>
                           <tr role="row">
                             <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Id: activate to sort column descending" aria-sort="ascending">ID</th>
                             <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Nome: activate to sort column ascending">Nome</th>
-                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Usuario: activate to sort column ascending">Usuario</th>
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Repositorio: activate to sort column ascending">Repositorio</th>
                           </tr>
                         </thead>
                         <tbody>
 
-                          {% for item in usuarios %}
+                          {% for item in repositorios %}
                           <tr role="row" class="even">
                             <td tabindex="0" class="sorting_1">{{ item["id"] }}</td>
                             <td>{{ item["name"] }}</td>
-                            <td>{{ item["username"] }}</td>
+                            <td>{{ item["link"] }}</td>
                           </tr>
                           {% endfor%}
 

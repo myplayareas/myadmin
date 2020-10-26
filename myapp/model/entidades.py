@@ -20,3 +20,14 @@ class Usuario:
 class MyEncoder(JSONEncoder):
         def default(self, o):
             return o.__dict__    
+
+# Define a Classe Repositorio
+class Repositorio:
+    id = 0
+    name = ''
+    link = ''
+
+    def __init__(self, id, name, link):
+        self.id = id
+        self.name = name
+        self.link = link

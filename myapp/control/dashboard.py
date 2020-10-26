@@ -16,6 +16,20 @@ import os
 
 bp = Blueprint("dashboard", __name__)
 
+# Retorna a lista de usuarios
+def lista_usuarios():
+    db = get_db()
+    query = "select * from user"
+    usuarios = db.execute(query).fetchall()
+    return usuarios
+
+# Retorna a lista de repositorios do usuario
+def lista_repositorios_usuario(id):
+    db = get_db()
+    query = "select * from repository where user_id = ?"
+    repositorios = db.execute( query , (id,) ).fetchall()
+    return repositorios
+
 """Show the user dashboard """
 @bp.route("/")
 @login_required
@@ -30,9 +44,14 @@ def index():
             usuario_logado["password"], usuario_logado["image"])
 
     #Carrega lista de usuarios registrados no sistema
-    #Carregas as notas do usuario logado
+    usuarios = lista_usuarios()
+
+    #Carregas os repositorios do usuario logado
+    repositorios = lista_repositorios_usuario(usuario_logado["id"])
+    print(repositorios)
+
     return render_template("dashboard/starter.html", usuario = usuario.username, 
-            profilePic=usuario.image, titulo="Dashboard")
+            profilePic=usuario.image, titulo="Dashboard", usuarios = usuarios, repositorios = repositorios) 
 
 # Dado um id de usuario retorna um user (dicionario)
 def get_usuario(id):
@@ -89,5 +108,7 @@ def salva(id):
             query = "Update user set name = ?, username = ?, image = ? where id = ?"
             db.execute( query, (name, username, file_name_to_store, id) ) 
             db.commit()
+            message = "Usuário atualizado com sucesso!"
+            flash(message)
 
     return redirect(url_for("index"))
