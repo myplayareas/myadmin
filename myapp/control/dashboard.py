@@ -34,26 +34,22 @@ def lista_repositorios_usuario(id):
 @bp.route("/")
 @login_required
 def index():
-    # usuario_logado carrega uma estrutura de dicionario
+    # usuario_id carrega uma estrutura de dicionario
     usuario_id = json.loads(session.get("usuario_logado"))
     # Pega os dados atualizados do usuario logado
-    usuario_logado = get_usuario(usuario_id["id"])
-
-    # Converte para objeto
-    usuario = Usuario( usuario_logado["id"], usuario_logado["name"], usuario_logado["username"], 
-            usuario_logado["password"], usuario_logado["image"])
+    usuario = get_usuario(usuario_id["id"])
 
     #Carrega lista de usuarios registrados no sistema
     usuarios = lista_usuarios()
 
     #Carregas os repositorios do usuario logado
-    repositorios = lista_repositorios_usuario(usuario_logado["id"])
+    repositorios = lista_repositorios_usuario(usuario.id)
     print(repositorios)
 
     return render_template("dashboard/starter.html", usuario = usuario.username, 
             profilePic=usuario.image, titulo="Dashboard", usuarios = usuarios, repositorios = repositorios) 
 
-# Dado um id de usuario retorna um user (dicionario)
+# Dado um id de usuario retorna um usuario (objeto)
 def get_usuario(id):
     id = int(id)
     query = "SELECT * FROM user WHERE id = ?"
@@ -62,7 +58,10 @@ def get_usuario(id):
     if user is None:
         abort(404, "User id {0} doesn't exist.".format(id))
 
-    return user
+    # Converte para objeto
+    usuario = Usuario( user["id"], user["name"], user["username"], user["password"], user["image"])
+
+    return usuario
 
 """Show the user profile """
 @bp.route("/profile")
@@ -70,11 +69,7 @@ def get_usuario(id):
 def profile():
     usuario_id = json.loads(session.get("usuario_logado"))
     # Pega os dados atualizados do usuario logado
-    usuario_logado = get_usuario(usuario_id["id"])
-
-    # Converte para objeto
-    usuario = Usuario( usuario_logado["id"], usuario_logado["name"], usuario_logado["username"], 
-            usuario_logado["password"], usuario_logado["image"])
+    usuario = get_usuario(usuario_id["id"])
 
     return render_template("dashboard/profile.html", usuario = usuario.username, 
             profilePic=usuario.image, titulo="Profile", nome = usuario.name, id = str(usuario.id))
@@ -87,6 +82,7 @@ def salva(id):
         name = request.form["name"]
         username = request.form["email"]
 
+        # TO DO: isolar o tratamento de arquivo
         file_image = request.files["arquivo"]
         file_name_to_store = "picture-" + str(id) + ".png"
         UPLOAD_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static' + '/uploads'
