@@ -65,7 +65,7 @@
                 <h3 class="card-title">Latest Members</h3>
 
                 <div class="card-tools">
-                  <span class="badge badge-danger">3 New Members</span>
+                  <span class="badge badge-danger">{{ quantidade_usuarios }} Members</span>
                   <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
                   </button>
                   <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
@@ -87,7 +87,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer text-center">
-                <a href="javascript::">View All Users</a>
+                <a href="{{ url_for('usuario.listar') }}"> View All Users</a>
               </div>
               <!-- /.card-footer -->
             </div>
@@ -130,7 +130,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer text-center">
-                <a href="javascript:void(0)" class="uppercase">View All Repositories</a>
+                <a href="{{ url_for('repositorio.listar') }}">View All Repositories</a>
               </div>
               <!-- /.card-footer -->
             </div>

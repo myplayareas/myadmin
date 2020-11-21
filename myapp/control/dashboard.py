@@ -42,12 +42,15 @@ def index():
     #Carrega lista de usuarios registrados no sistema
     usuarios = lista_usuarios()
 
+    quantidade_usuarios = len(usuarios)
+
     #Carregas os repositorios do usuario logado
     repositorios = lista_repositorios_usuario(usuario.id)
     print(repositorios)
 
     return render_template("dashboard/starter.html", usuario = usuario.username, 
-            profilePic=usuario.image, titulo="Dashboard", usuarios = usuarios, repositorios = repositorios) 
+            profilePic=usuario.image, titulo="Dashboard", usuarios = usuarios, 
+            repositorios = repositorios, quantidade_usuarios=quantidade_usuarios) 
 
 # Dado um id de usuario retorna um usuario (objeto)
 def get_usuario(id):

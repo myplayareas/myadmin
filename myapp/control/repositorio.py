@@ -14,7 +14,61 @@ import json
 from myapp.model.entidades import Usuario
 from myapp.model.entidades import Repositorio
 
+import datetime
+from myapp.services.check_commits import CheckCommits
+import numpy as np
+from os import path
+import matplotlib.pyplot as plt
+from myapp.utils.utilidades import Util
+from threading import Thread
+
 bp = Blueprint("repositorio", __name__, url_prefix="/repositorio")
+
+# Faz o processamento da analise do repositorio
+def processing(repository, name):
+    try:
+        # Class that represents a repository analysis
+        analysis = CheckCommits(repository, name)
+
+        print("SysRepo Analysis - v: 1.0.0", datetime.datetime.now())
+        print("Repository: ", repository)
+
+        before1 = datetime.datetime.now()
+        print("Started on: ", before1)
+        print("Please wait...")
+
+        frequencyOfEachFile = None
+
+        try: 
+            print("Processing the frequency of each file in commits...")
+            frequencyOfEachFile = analysis.counterWithFrequencyOfFile()
+            print(frequencyOfEachFile)
+        except:
+            print("Error in analysis.counterWithFrequencyOfFile()")
+
+        try: 
+            # Save frequencyOfEachFile in a json file
+            singleName = name + ".json"
+            JSON_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static' + "/json"
+            path_to_save = JSON_PATH + "/"
+            fileName = path_to_save + name + ".json"
+            with open(fileName, 'w', encoding="utf-8") as jsonFile:
+                json.dump(frequencyOfEachFile, jsonFile)
+            print("The file {} was saved with success!".format( singleName ))
+        except: 
+            print( "Error when try to save the json file")
+
+        print( "Processing word cloud...")
+        analysis.generateWordCloud()
+
+        after =  datetime.datetime.now()
+        print("The wordcloud was generated with success!")
+        print("Finished on: ", after)
+    except:
+        print("Something wrong!")
+    finally:
+        print("Finished processing!")
+    return frequencyOfEachFile
 
 # Retorna a lista de repositorios do usuario
 def lista_repositorios_usuario(id):
@@ -22,6 +76,13 @@ def lista_repositorios_usuario(id):
     query = "select * from repository where user_id = ?"
     repositorios = db.execute( query , (id,) ).fetchall()
     return repositorios
+
+# Retorna os dados de um repositorio especifico
+def dados_do_repositorio(id):
+    db = get_db()
+    query = "select * from repository where id = ?"
+    repositorio = db.execute( query, (id,) ).fetchone()      
+    return repositorio
 
 """ Mostra a lista de repositorios  """
 @bp.route("/listar")
@@ -90,4 +151,25 @@ def criar():
 
     return render_template("repositorio/criar.html", usuario = usuario.username, 
             profilePic=usuario.image, titulo="Repositorios")
+        
+# Visualiza as informacoes de um dado repositorio selecionado
+@bp.route("/<int:id>/visualizar", methods=["GET"])
+@login_required
+def visualizar(id):
+    usuario_logado = json.loads(session.get("usuario_logado"))
+    # Converte para objeto
+    usuario = Usuario( usuario_logado["id"], usuario_logado["name"], usuario_logado["username"], 
+            usuario_logado["password"], usuario_logado["image"])
+    
+    # Dados do reposotorio
+    repositorio = dados_do_repositorio(id)
+    link = repositorio['link']
+    name = repositorio['name']
+    
+    # Metricas do repositorio
+    # Processa o repositorio para gerar a lista dos arquivos mais modificados
+    # Processa o repositorio para gerar a nuvem de arquivos mais modificados
+    arquivos = processing(link, name)
 
+    return render_template("repositorio/visualizar.html", usuario = usuario.username, 
+            profilePic=usuario.image, titulo="Detalhes do Repositorio", name=name, arquivos=arquivos)
