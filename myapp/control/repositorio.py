@@ -132,6 +132,7 @@ def criar():
         name = request.form["name"]
         link = request.form["link"]
         error = None
+        error_processing_repository = None
 
         if not name:
             error = "Name is required."
@@ -140,10 +141,19 @@ def criar():
             flash(error)
         else:
             db = get_db()
-            query_insert = "INSERT INTO repository (name, link, user_id) VALUES (?, ?, ?)"
+            query_insert = "INSERT INTO repository (name, link, user_id, creation_date, analysis_date, analysed) VALUES (?, ?, ?, ?, ?, ?)"
             db.execute(
-                query_insert,(name, link, g.user["id"]),
+                query_insert,(name, link, g.user["id"], datetime.datetime.now(), datetime.datetime.now(), 1),
             )
+            try:
+                # Processa o repositorio para gerar a nuvem de arquivos mais modificados
+                arquivos = processing(link, name)
+            except:
+                error_processing_repository = "Erro no processamento da analise do repository."
+
+            if error_processing_repository is not None:
+                flash(error_processing_repository)
+            
             db.commit()
             message = "Repositório criado com sucesso!"
             flash(message)
@@ -165,11 +175,13 @@ def visualizar(id):
     repositorio = dados_do_repositorio(id)
     link = repositorio['link']
     name = repositorio['name']
-    
-    # Metricas do repositorio
-    # Processa o repositorio para gerar a lista dos arquivos mais modificados
-    # Processa o repositorio para gerar a nuvem de arquivos mais modificados
-    arquivos = processing(link, name)
+
+    JSON_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static' + "/json"
+    path_to_save = JSON_PATH + "/"
+    fileName = path_to_save + name + ".json"
+
+    with open(fileName, 'r', encoding="utf-8") as jsonFile:
+        arquivos = dict(json.loads(jsonFile.read()))
 
     return render_template("repositorio/visualizar.html", usuario = usuario.username, 
             profilePic=usuario.image, titulo="Detalhes do Repositorio", name=name, arquivos=arquivos)
