@@ -21,6 +21,7 @@ from os import path
 import matplotlib.pyplot as plt
 from myapp.utils.utilidades import Util
 from threading import Thread
+from collections import Counter
 
 bp = Blueprint("repositorio", __name__, url_prefix="/repositorio")
 
@@ -80,7 +81,7 @@ def lista_repositorios_usuario(id):
 # Retorna os dados de um repositorio especifico
 def dados_do_repositorio(id):
     db = get_db()
-    query = "select * from repository where id = ?"
+    query = "select id, name, link, creation_date, analysis_date, analysed from repository where id = ?"
     repositorio = db.execute( query, (id,) ).fetchone()      
     return repositorio
 
@@ -140,6 +141,7 @@ def criar():
         if error is not None:
             flash(error)
         else:
+            # Conecta com o banco para inserir um novo repositorio
             db = get_db()
             query_insert = "INSERT INTO repository (name, link, user_id, creation_date, analysis_date, analysed) VALUES (?, ?, ?, ?, ?, ?)"
             db.execute(
@@ -175,6 +177,13 @@ def visualizar(id):
     repositorio = dados_do_repositorio(id)
     link = repositorio['link']
     name = repositorio['name']
+    creation_date = repositorio['creation_date']
+    analysis_date = repositorio['analysis_date']
+    quantidade_commits = 0
+    quantidade_autores = 0
+    quantidade_arquivos = 0
+    quantidade_tipos = 0
+    counter_list_of_types = []
 
     JSON_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static' + "/json"
     path_to_save = JSON_PATH + "/"
@@ -182,6 +191,26 @@ def visualizar(id):
 
     with open(fileName, 'r', encoding="utf-8") as jsonFile:
         arquivos = dict(json.loads(jsonFile.read()))
+        counter_list_of_types = check_tipos_de_arquivos(arquivos)
+        arquivos_ordenados = dict( sorted(arquivos.items(), key=lambda item: item[1], reverse=True) )
+        counter_list_of_types = dict( sorted( counter_list_of_types.items(), key=lambda item: item[1], reverse=True) )
+
+        quantidade_arquivos = len(arquivos)
+        quantidade_tipos = len(counter_list_of_types)
 
     return render_template("repositorio/visualizar.html", usuario = usuario.username, 
-            profilePic=usuario.image, titulo="Detalhes do Repositorio", name=name, arquivos=arquivos)
+            profilePic=usuario.image, titulo="Detalhes do Repositorio", name=name, arquivos=arquivos_ordenados, 
+            quantidade_commits=0, quantidade_autores=0, quantidade_arquivos=quantidade_arquivos,quantidade_tipos=quantidade_tipos, 
+            lista_tipos=counter_list_of_types, data_criacao=creation_date, data_analises=analysis_date)
+
+# dado um arquivo json convertido em dicionario retorna a lista de extensoes dos arquivos
+def check_tipos_de_arquivos(arquivo):
+    print(arquivo)
+    # Percorre todos os itens do dicionario json
+    list_of_types = []
+    for key, value in arquivo.items():            
+    # Para cada item faz o split por .
+        item = key.split('.')
+        if len(item)==2: 
+            list_of_types.append(item[1])
+    return Counter(list_of_types)

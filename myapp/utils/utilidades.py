@@ -66,5 +66,11 @@ class Util:
             for filename in files:
                 print( os.path.join(path,filename) )
 
+class Constants:
+    def __init__(self):
+        self.UPLOAD_PATH = ""
+        self.IMG_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static' + '/img'
+        self.JSON_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static' + "/json"
+
 #git_remote = 'https://github.com/armandossrecife/sysdemo.git'
 #git_root = '/Users/armandosoaressousa/git/myadmin/temp/sysdemo'
