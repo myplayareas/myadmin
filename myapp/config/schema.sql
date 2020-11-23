@@ -12,7 +12,10 @@ CREATE TABLE user (
 
 CREATE TABLE repository (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT UNIQUE NOT NULL, 
-  link TEXT UNIQUE NOT NULL,
-  user_id INTEGER
+  name TEXT NOT NULL, 
+  link TEXT NOT NULL,
+  user_id INTEGER,
+  creation_date timestamp,
+  analysis_date timestamp,
+  analysed INTEGER
 );
