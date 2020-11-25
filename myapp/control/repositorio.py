@@ -28,6 +28,7 @@ bp = Blueprint("repositorio", __name__, url_prefix="/repositorio")
 # Faz o processamento da analise do repositorio
 def processing(repository, name):
     try:
+        usuario_logado = json.loads(session.get("usuario_logado"))
         # Class that represents a repository analysis
         analysis = CheckCommits(repository, name)
 
@@ -50,9 +51,12 @@ def processing(repository, name):
         try: 
             # Save frequencyOfEachFile in a json file
             singleName = name + ".json"
-            JSON_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static' + "/json"
-            path_to_save = JSON_PATH + "/"
-            fileName = path_to_save + name + ".json"
+            JSON_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static/json'
+            user_directory = JSON_PATH + '/' + str(usuario_logado['id'])
+            path_to_save = user_directory + '/'
+            fileName = path_to_save + name + '.json'
+            #Create the user directory if not existe
+            Util.CreateDirectoryIfNotExists(user_directory)
             with open(fileName, 'w', encoding="utf-8") as jsonFile:
                 json.dump(frequencyOfEachFile, jsonFile)
             print("The file {} was saved with success!".format( singleName ))
@@ -60,7 +64,7 @@ def processing(repository, name):
             print( "Error when try to save the json file")
 
         print( "Processing word cloud...")
-        analysis.generateWordCloud()
+        analysis.generateWordCloud(usuario_logado['id'])
 
         after =  datetime.datetime.now()
         print("The wordcloud was generated with success!")
@@ -152,9 +156,9 @@ def criar():
                 arquivos = processing(link, name)
             except:
                 error_processing_repository = "Erro no processamento da analise do repository."
-
-            if error_processing_repository is not None:
-                flash(error_processing_repository)
+                if error_processing_repository is not None:
+                    flash(error_processing_repository)
+                    return redirect(url_for("repositorio.listar"))
             
             db.commit()
             message = "Repositório criado com sucesso!"
@@ -185,8 +189,8 @@ def visualizar(id):
     quantidade_tipos = 0
     counter_list_of_types = []
 
-    JSON_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static' + "/json"
-    path_to_save = JSON_PATH + "/"
+    JSON_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static/json'
+    path_to_save = JSON_PATH + '/' + str(usuario_logado['id']) + '/'
     fileName = path_to_save + name + ".json"
 
     with open(fileName, 'r', encoding="utf-8") as jsonFile:
@@ -198,7 +202,7 @@ def visualizar(id):
         quantidade_arquivos = len(arquivos)
         quantidade_tipos = len(counter_list_of_types)
 
-    return render_template("repositorio/visualizar.html", usuario = usuario.username, 
+    return render_template("repositorio/visualizar.html", usuario = usuario.username, usuario_id=str(usuario.id), 
             profilePic=usuario.image, titulo="Detalhes do Repositorio", name=name, arquivos=arquivos_ordenados, 
             quantidade_commits=0, quantidade_autores=0, quantidade_arquivos=quantidade_arquivos,quantidade_tipos=quantidade_tipos, 
             lista_tipos=counter_list_of_types, data_criacao=creation_date, data_analises=analysis_date)

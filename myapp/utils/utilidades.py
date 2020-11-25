@@ -85,6 +85,11 @@ class Util:
         return dictionary_directory_files
     # More detaisl in https://janakiev.com/blog/python-filesystem-analysis/
 
+    @staticmethod
+    def CreateDirectoryIfNotExists(path):
+        if not os.path.exists(path):
+            os.makedirs(path)
+
 class Constants:
     def __init__(self):
         self.UPLOAD_PATH = ""
