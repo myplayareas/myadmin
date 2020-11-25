@@ -90,12 +90,6 @@ class Util:
         if not os.path.exists(path):
             os.makedirs(path)
 
-class Constants:
-    def __init__(self):
-        self.UPLOAD_PATH = ""
-        self.IMG_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static' + '/img'
-        self.JSON_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static' + "/json"
-
 from pathlib import Path
 
 #https://stackoverflow.com/questions/9727673/list-directory-tree-structure-in-python
@@ -177,6 +171,14 @@ class DisplayablePath(object):
 #paths = DisplayablePath.make_tree(Path('doc'))
 #for path in paths:
 #    print(path.displayable())
+
+class Constant:
+    PATH_MYADMIN = '/Users/armandosoaressousa/git/myadmin'
+    PATH_MYAPP = '/Users/armandosoaressousa/git/myadmin/myapp'
+    PATH_STATIC = '/Users/armandosoaressousa/git/myadmin/myapp/static'
+    PATH_IMG = '/Users/armandosoaressousa/git/myadmin/myapp/static/img'
+    PATH_JSON = '/Users/armandosoaressousa/git/myadmin/myapp/static/json'
+    PATH_UPLOADS = '/Users/armandosoaressousa/git/myadmin/myapp/static/uploads'
 
 #git_remote = 'https://github.com/armandossrecife/sysdemo.git'
 #git_root = '/Users/armandosoaressousa/git/myadmin/temp/sysdemo'

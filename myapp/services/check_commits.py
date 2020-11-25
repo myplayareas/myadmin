@@ -4,6 +4,7 @@ from collections import Counter
 from wordcloud import WordCloud
 from myapp.utils.utilidades import Util
 import matplotlib.pyplot as plt
+from myapp.utils.utilidades import Constant
 
 # Class to analysis all commits from a branch of git repository
 class CheckCommits:
@@ -45,8 +46,7 @@ class CheckCommits:
         wordcloud = WordCloud(width = 1200, height = 1000, random_state=1, background_color='black', colormap='Set2', collocations=False)
         wordcloud.generate_from_frequencies(frequencies=dictionaryOfFileFrequence)
         # Display the generated image:
-        IMG_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static/img'
-        user_directory = IMG_PATH + "/" + str(user_id)
+        user_directory = Constant.PATH_IMG + "/" + str(user_id)
         path_to_save =  user_directory + "/"
         fileName = path_to_save + self.name + ".png"
         #Create the user directory if not existe
