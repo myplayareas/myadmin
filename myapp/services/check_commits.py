@@ -40,12 +40,15 @@ class CheckCommits:
         return Counter(listFull)
 
     # Generate a Word of Cloud about each file according frequence
-    def generateWordCloud(self):
+    def generateWordCloud(self, user_id):
         dictionaryOfFileFrequence = self.counterWithFrequencyOfFile()
-        wordcloud = WordCloud(width = 3000, height = 2000, random_state=1, background_color='black', colormap='Set2', collocations=False)
+        wordcloud = WordCloud(width = 1200, height = 1000, random_state=1, background_color='black', colormap='Set2', collocations=False)
         wordcloud.generate_from_frequencies(frequencies=dictionaryOfFileFrequence)
         # Display the generated image:
-        IMG_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static' + '/img'
-        path_to_save = IMG_PATH + "/"
+        IMG_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static/img'
+        user_directory = IMG_PATH + "/" + str(user_id)
+        path_to_save =  user_directory + "/"
         fileName = path_to_save + self.name + ".png"
+        #Create the user directory if not existe
+        Util.CreateDirectoryIfNotExists(user_directory)
         wordcloud.to_file(fileName)
