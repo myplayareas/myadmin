@@ -13,6 +13,7 @@ from myapp.config.db import get_db
 import json
 from myapp.model.entidades import Usuario
 import os
+from myapp.utils.utilidades import Constant
 
 bp = Blueprint("dashboard", __name__)
 
@@ -87,8 +88,7 @@ def salva(id):
         # TO DO: isolar o tratamento de arquivo
         file_image = request.files["arquivo"]
         file_name_to_store = "picture-" + str(id) + ".png"
-        UPLOAD_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static' + '/uploads'
-        path_to_save = UPLOAD_PATH + "/" + file_name_to_store
+        path_to_save = Constant.PATH_UPLOADS + "/" + file_name_to_store
 
         error = None
 

@@ -22,6 +22,7 @@ import matplotlib.pyplot as plt
 from myapp.utils.utilidades import Util
 from threading import Thread
 from collections import Counter
+from myapp.utils.utilidades import Constant
 
 bp = Blueprint("repositorio", __name__, url_prefix="/repositorio")
 
@@ -51,10 +52,8 @@ def processing(repository, name):
         try: 
             # Save frequencyOfEachFile in a json file
             singleName = name + ".json"
-            JSON_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static/json'
-            user_directory = JSON_PATH + '/' + str(usuario_logado['id'])
-            path_to_save = user_directory + '/'
-            fileName = path_to_save + name + '.json'
+            user_directory = Constant.PATH_JSON + '/' + str(usuario_logado['id'])
+            fileName = user_directory + '/' + name + '.json'
             #Create the user directory if not existe
             Util.CreateDirectoryIfNotExists(user_directory)
             with open(fileName, 'w', encoding="utf-8") as jsonFile:
@@ -189,9 +188,7 @@ def visualizar(id):
     quantidade_tipos = 0
     counter_list_of_types = []
 
-    JSON_PATH = '/Users/armandosoaressousa/git/myadmin/myapp/static/json'
-    path_to_save = JSON_PATH + '/' + str(usuario_logado['id']) + '/'
-    fileName = path_to_save + name + ".json"
+    fileName = Constant.PATH_JSON + '/' + str(usuario_logado['id']) + '/' + name + ".json"
 
     with open(fileName, 'r', encoding="utf-8") as jsonFile:
         arquivos = dict(json.loads(jsonFile.read()))

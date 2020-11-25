@@ -17,7 +17,11 @@ class MyEncoder(JSONEncoder):
 
 # Define a Classe Repositorio
 class Repositorio:
-    def __init__(self, id, name, link):
+    def __init__(self, id, name, link, user):
         self.id = id
         self.name = name
         self.link = link
+        self.user = user
+        self.creation_date = None
+        self.analysis_date = None
+        self.analysis = 0
