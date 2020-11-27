@@ -141,8 +141,11 @@ def criar():
         if not name:
             error = "Name is required."
 
+        if not link:
+            error = "Link is required."
+
         if error is not None:
-            flash(error)
+            flash(error, 'danger')
         else:
             # Conecta com o banco para inserir um novo repositorio
             db = get_db()
@@ -156,12 +159,12 @@ def criar():
             except:
                 error_processing_repository = "Erro no processamento da analise do repository."
                 if error_processing_repository is not None:
-                    flash(error_processing_repository)
+                    flash(error_processing_repository, 'danger')
                     return redirect(url_for("repositorio.listar"))
             
             db.commit()
             message = "Repositório criado com sucesso!"
-            flash(message)
+            flash(message, 'success')
             return redirect(url_for("repositorio.listar"))
 
     return render_template("repositorio/criar.html", usuario = usuario.username, 
