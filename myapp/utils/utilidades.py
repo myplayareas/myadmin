@@ -90,6 +90,13 @@ class Util:
         if not os.path.exists(path):
             os.makedirs(path)
 
+    @staticmethod
+    def DeleteFileIfExist(path):
+        if os.path.exists(path):
+            os.remove(path)
+        else:
+            print("The file does not exist")
+
 from pathlib import Path
 
 #https://stackoverflow.com/questions/9727673/list-directory-tree-structure-in-python

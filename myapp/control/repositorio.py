@@ -26,6 +26,24 @@ from myapp.utils.utilidades import Constant
 
 bp = Blueprint("repositorio", __name__, url_prefix="/repositorio")
 
+def delete_json_file(name, usuario_logado):
+    # Save frequencyOfEachFile in a json file
+    singleName = name + ".json"
+    user_directory = Constant.PATH_JSON + '/' + str(usuario_logado['id'])
+    fileName = user_directory + '/' + name + '.json'
+    #Delete the user file if exists
+    Util.DeleteFileIfExist(fileName)
+    print("The file {} was deleted with success!".format( singleName ))
+
+def delete_img_file(name, usuario_logado):
+    # Save frequencyOfEachFile in a json file
+    singleName = name + ".png"
+    user_directory = Constant.PATH_IMG + '/' + str(usuario_logado['id'])
+    fileName = user_directory + '/' + name + '.png'
+    #Delete the user file if exists
+    Util.DeleteFileIfExist(fileName)
+    print("The file {} was deleted with success!".format( singleName ))
+
 # Faz o processamento da analise do repositorio
 def processing(repository, name):
     try:
@@ -218,3 +236,71 @@ def check_tipos_de_arquivos(arquivo):
         if len(item)==2: 
             list_of_types.append(item[1])
     return Counter(list_of_types)
+
+@bp.route("/<int:id>/update", methods=["GET", "POST"])
+@login_required
+def update(id):    
+    usuario_logado = json.loads(session.get("usuario_logado"))
+
+    # Converte para objeto
+    usuario = Usuario( usuario_logado["id"], usuario_logado["name"], usuario_logado["username"], 
+            usuario_logado["password"], usuario_logado["image"])
+
+    """Update a repository if the current user."""
+    repository = dados_do_repositorio(id)
+
+    if request.method == "POST":
+        name = request.form["name"]
+        link = request.form["link"]
+        creation_date = request.form["creation_date"]
+        analysis_date = request.form["analysis_date"]
+        analysed = request.form["analysed"] 
+
+        error = None
+
+        if not name:
+            error = "Name is required."
+
+        if error is not None:
+            flash(error)
+        else:
+            analysis_date = datetime.datetime.now()
+            db = get_db()
+            db.execute(
+                "UPDATE repository SET name = ?, analysis_date = ? WHERE id = ?", (name, analysis_date, id)
+            )
+            try:
+                # Processa o repositorio para gerar a nuvem de arquivos mais modificados
+                arquivos = processing(link, name)
+            except:
+                error_processing_repository = "Erro no processamento da analise do repository."
+                if error_processing_repository is not None:
+                    flash(error_processing_repository, 'danger')
+                    return redirect(url_for("repositorio.listar"))
+            db.commit()
+            message = "Repositório atualizado com sucesso!"
+            flash(message, 'success')
+            return redirect(url_for("repositorio.listar"))
+
+    return render_template("repositorio/update.html", usuario = usuario.username, 
+            profilePic=usuario.image, titulo="Update Repository", repository=repository)
+
+@bp.route("/<int:id>/delete", methods=["GET"])
+@login_required
+def delete(id):
+    usuario_logado = json.loads(session.get("usuario_logado"))
+
+    repository = dados_do_repositorio(id)
+    name_repository = repository["name"]
+
+    db = get_db()
+    db.execute("DELETE FROM repository WHERE id = ?", (id,))
+    db.commit()
+    
+    #TODO remover os arquivos img e json do repository correspondente
+    delete_img_file(name_repository, usuario_logado)
+    delete_json_file(name_repository, usuario_logado)
+
+    message = "Repositório removido com sucesso!"
+    flash(message, 'success')
+    return redirect(url_for("repositorio.listar"))

@@ -39,6 +39,8 @@
                             <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Nome: activate to sort column ascending">Nome</th>
                             <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Repositorio: activate to sort column ascending">Repositorio</th>
                             <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Acoes: activate to sort column ascending">Acoes</th>
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Acoes: activate to sort column ascending">...</th>
+                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Acoes: activate to sort column ascending">...</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -49,6 +51,8 @@
                             <td>{{ item["name"] }}</td>
                             <td>{{ item["link"] }}</td>
                             <td><a href="{{ url_for('repositorio.visualizar', id=item["id"]) }}">[Visualizar]</a>
+                            <td><a href="{{ url_for('repositorio.update', id=item["id"]) }}">[Update]</a>
+                            <td><a href="{{ url_for('repositorio.delete', id=item["id"]) }}">[Delete]</a>
                           </tr>
                           {% endfor%}
 
