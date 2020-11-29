@@ -7,7 +7,6 @@ from flask import request
 from flask import url_for
 from werkzeug.exceptions import abort
 from flask import session
-
 from myapp.control.auth import login_required
 from myapp.config.db import get_db
 import json
@@ -35,47 +34,24 @@ def lista_repositorios_usuario(id):
 @bp.route("/")
 @login_required
 def index():
-    # usuario_id carrega uma estrutura de dicionario
-    usuario_id = json.loads(session.get("usuario_logado"))
-    # Pega os dados atualizados do usuario logado
-    usuario = get_usuario(usuario_id["id"])
-
     #Carrega lista de usuarios registrados no sistema
     usuarios = lista_usuarios()
     quantidade_usuarios = len(usuarios)
 
     #Carregas os repositorios do usuario logado
-    repositorios = lista_repositorios_usuario(usuario.id)
+    repositorios = lista_repositorios_usuario(g.user['id'])
     quantidade_repositorios = len(repositorios)
 
-    return render_template("dashboard/starter.html", usuario = usuario.username, 
-            profilePic=usuario.image, titulo="Dashboard", usuarios = usuarios, 
+    return render_template("dashboard/starter.html", usuario = g.user['username'], 
+            profilePic=g.user['image'], titulo="Dashboard", usuarios = usuarios, 
             repositorios = repositorios, quantidade_usuarios=quantidade_usuarios, quantidade_repositorios=quantidade_repositorios) 
-
-# Dado um id de usuario retorna um usuario (objeto)
-def get_usuario(id):
-    id = int(id)
-    query = "SELECT * FROM user WHERE id = ?"
-    user = get_db().execute( query , (id,) ).fetchone()
-
-    if user is None:
-        abort(404, "User id {0} doesn't exist.".format(id))
-
-    # Converte para objeto
-    usuario = Usuario( user["id"], user["name"], user["username"], user["password"], user["image"])
-
-    return usuario
 
 """Show the user profile """
 @bp.route("/profile")
 @login_required
 def profile():
-    usuario_id = json.loads(session.get("usuario_logado"))
-    # Pega os dados atualizados do usuario logado
-    usuario = get_usuario(usuario_id["id"])
-
-    return render_template("dashboard/profile.html", usuario = usuario.username, 
-            profilePic=usuario.image, titulo="Profile", nome = usuario.name, id = str(usuario.id))
+    return render_template("dashboard/profile.html", usuario = g.user['username'], 
+            profilePic=g.user['image'], titulo="Profile", nome = g.user['name'], id = str(g.user['id']))
 
 @bp.route("/<int:id>/salva", methods=["POST"])
 @login_required
@@ -84,7 +60,6 @@ def salva(id):
         # Carrega dados do formulario
         name = request.form["name"]
         username = request.form["email"]
-
         error = None
 
         if not username:
@@ -99,6 +74,6 @@ def salva(id):
             db.execute( query, (name, username, id) ) 
             db.commit()
             message = "Usuário atualizado com sucesso!"
-            flash(message)
+            flash(message, 'success')
 
     return redirect(url_for("index"))

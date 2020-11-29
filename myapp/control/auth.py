@@ -13,7 +13,7 @@ from werkzeug.security import generate_password_hash
 
 from myapp.config.db import get_db
 from myapp.model.entidades import Usuario
-from myapp.model.entidades import MyEncoder
+from myapp.utils.utilidades import MyEncoder
 
 bp = Blueprint("auth", __name__)
 

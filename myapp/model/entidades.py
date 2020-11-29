@@ -1,5 +1,3 @@
-from json import JSONEncoder
-
 # Define a Classe Usuario
 class Usuario:
     # Construtor da classe
@@ -9,11 +7,6 @@ class Usuario:
         self.username = username
         self.password = password
         self.image = image
-
-# Classe que converte Objeto em JSON
-class MyEncoder(JSONEncoder):
-        def default(self, o):
-            return o.__dict__    
 
 # Define a Classe Repositorio
 class Repositorio:
