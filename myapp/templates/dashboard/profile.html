@@ -13,7 +13,7 @@
               <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
                   <div class="text-center">
-                    <img class="profile-user-img img-fluid img-circle" src="{{ url_for('static', filename='uploads/' + profilePic) }}" alt="User profile picture">
+                    <a href="{{ url_for("usuario.update", id=id) }}"><img class="profile-user-img img-fluid img-circle" src="{{ url_for('static', filename='uploads/' + profilePic) }}" alt="User profile picture"></a>
                   </div>
   
                   <h3 class="profile-username text-center">{{usuario}} </h3>
@@ -23,12 +23,6 @@
                   <ul class="list-group list-group-unbordered mb-3">
                     <li class="list-group-item">
                       <b>Followers</b> <a class="float-right">1,322</a>
-                    </li>
-                    <li class="list-group-item">
-                      <b>Following</b> <a class="float-right">543</a>
-                    </li>
-                    <li class="list-group-item">
-                      <b>Friends</b> <a class="float-right">13,287</a>
                     </li>
                   </ul>
   
@@ -146,7 +140,7 @@
                     <!-- /.tab-pane -->
   
                     <div class="active tab-pane" id="settings">
-                      <form class="form-horizontal" action="{{ id + '/salva' }}" method="post" enctype="multipart/form-data">
+                      <form class="form-horizontal" action="{{ id + '/salva' }}" method="post">
                         <div class="form-group row">
                           <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                           <div class="col-sm-10">
@@ -158,13 +152,6 @@
                           <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                           <div class="col-sm-10">
                             <input type="email" class="form-control" id="inputEmail" placeholder="Email" value={{usuario}} name="email">
-                          </div>
-                        </div>
-
-                        <div class="form-group row">
-                          <label for="inputArquivo" class="col-sm-2 col-form-label">Arquivo</label>
-                          <div class="col-sm-10">
-                            <input type="file" class="form-control" name="arquivo">
                           </div>
                         </div>
 

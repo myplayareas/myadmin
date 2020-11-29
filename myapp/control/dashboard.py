@@ -85,11 +85,6 @@ def salva(id):
         name = request.form["name"]
         username = request.form["email"]
 
-        # TO DO: isolar o tratamento de arquivo
-        file_image = request.files["arquivo"]
-        file_name_to_store = "picture-" + str(id) + ".png"
-        path_to_save = Constant.PATH_UPLOADS + "/" + file_name_to_store
-
         error = None
 
         if not username:
@@ -98,13 +93,10 @@ def salva(id):
         if error is not None:
             flash(error)
         else:
-            # Salva o arquivo no diretorio de uploads
-            file_image.save(path_to_save)
-
             # Faz o updade no banco 
             db = get_db()
-            query = "Update user set name = ?, username = ?, image = ? where id = ?"
-            db.execute( query, (name, username, file_name_to_store, id) ) 
+            query = "Update user set name = ?, username = ? where id = ?"
+            db.execute( query, (name, username, id) ) 
             db.commit()
             message = "Usuário atualizado com sucesso!"
             flash(message)
