@@ -1,5 +1,12 @@
 import os
 from flask import Flask
+# register the database commands
+from myapp.config import db
+# apply the blueprints to the app
+from myapp.control import auth
+from myapp.control import dashboard
+from myapp.control import usuario
+from myapp.control import repositorio
 
 def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""
@@ -28,16 +35,7 @@ def create_app(test_config=None):
     def hello():
         return "Aplicacao Web Python usando Flask"
 
-    # register the database commands
-    from myapp.config import db
-
     db.init_app(app)
-
-    # apply the blueprints to the app
-    from myapp.control import auth
-    from myapp.control import dashboard
-    from myapp.control import usuario
-    from myapp.control import repositorio
 
     app.register_blueprint(auth.bp)
     app.register_blueprint(dashboard.bp)

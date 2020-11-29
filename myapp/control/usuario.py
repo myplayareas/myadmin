@@ -7,7 +7,6 @@ from flask import request
 from flask import url_for
 from werkzeug.exceptions import abort
 from flask import session
-
 from myapp.control.auth import login_required
 from myapp.config.db import get_db
 import json
@@ -20,33 +19,20 @@ bp = Blueprint("usuario", __name__, url_prefix="/usuario")
 @bp.route("/listar")
 @login_required
 def listar():
-    usuario_logado = json.loads(session.get("usuario_logado"))
-
-    # Converte para objeto
-    usuario = Usuario( usuario_logado["id"], usuario_logado["name"], usuario_logado["username"], 
-            usuario_logado["password"], usuario_logado["image"])
-
     #Carrega usuarios registrados no sistema
     db = get_db()
     query = "SELECT * FROM user ORDER BY id"
     lista_usuarios = db.execute( query ).fetchall()
         
-    return render_template("usuario/listar.html", usuario = usuario.username, 
-            profilePic=usuario.image, titulo="Usuários", usuarios=lista_usuarios)
+    return render_template("usuario/listar.html", usuario = g.user['username'], 
+            profilePic=g.user['image'], titulo="Usuários", usuarios=lista_usuarios)
 
 @bp.route("/<int:id>/update", methods=["GET", "POST"])
 @login_required
 def update(id):    
-    usuario_logado = json.loads(session.get("usuario_logado"))
-
-    # Converte para objeto
-    usuario = Usuario( usuario_logado["id"], usuario_logado["name"], usuario_logado["username"], 
-            usuario_logado["password"], usuario_logado["image"])
-
     if request.method == "POST":
         username = request.form["username"]
-        image_name = usuario.image
-        
+        file_name_to_store = "picture-" + str(id) + ".png" 
         error = None
 
         if not username:
@@ -57,14 +43,13 @@ def update(id):
         else:
             db = get_db()
             db.execute(
-                "UPDATE user SET image = ? WHERE id = ?", (image_name, id)
+                "UPDATE user SET image = ? WHERE id = ?", (file_name_to_store, id)
             )
             try:
                 # Processa o upload do arquivo de imagem
                 print('Processamento do upload da imagem')
                 # TO DO: isolar o tratamento de arquivo
                 file_image = request.files["image"]
-                file_name_to_store = "picture-" + str(id) + ".png"
                 path_to_save = Constant.PATH_UPLOADS + "/" + file_name_to_store
                 # Salva o arquivo no diretorio de uploads
                 file_image.save(path_to_save)
@@ -78,5 +63,5 @@ def update(id):
             flash(message, 'success')
             return redirect(url_for("dashboard.profile"))
 
-    return render_template("usuario/imagem.html", usuario = usuario.username, 
-            profilePic=usuario.image, titulo="Update image", usuario_logado=usuario_logado)
+    return render_template("usuario/imagem.html", usuario = g.user['username'], 
+            profilePic=g.user['image'], titulo="Update image", usuario_logado=g.user)

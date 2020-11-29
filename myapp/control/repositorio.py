@@ -7,13 +7,11 @@ from flask import request
 from flask import url_for
 from werkzeug.exceptions import abort
 from flask import session
-
 from myapp.control.auth import login_required
 from myapp.config.db import get_db
 import json
 from myapp.model.entidades import Usuario
 from myapp.model.entidades import Repositorio
-
 import datetime
 from myapp.services.check_commits import CheckCommits
 import numpy as np
@@ -26,19 +24,19 @@ from myapp.utils.utilidades import Constant
 
 bp = Blueprint("repositorio", __name__, url_prefix="/repositorio")
 
-def delete_json_file(name, usuario_logado):
+def delete_json_file(name, usuario_id):
     # Save frequencyOfEachFile in a json file
     singleName = name + ".json"
-    user_directory = Constant.PATH_JSON + '/' + str(usuario_logado['id'])
+    user_directory = Constant.PATH_JSON + '/' + str(usuario_id)
     fileName = user_directory + '/' + name + '.json'
     #Delete the user file if exists
     Util.DeleteFileIfExist(fileName)
     print("The file {} was deleted with success!".format( singleName ))
 
-def delete_img_file(name, usuario_logado):
+def delete_img_file(name, usuario_id):
     # Save frequencyOfEachFile in a json file
     singleName = name + ".png"
-    user_directory = Constant.PATH_IMG + '/' + str(usuario_logado['id'])
+    user_directory = Constant.PATH_IMG + '/' + str(usuario_id)
     fileName = user_directory + '/' + name + '.png'
     #Delete the user file if exists
     Util.DeleteFileIfExist(fileName)
@@ -47,7 +45,6 @@ def delete_img_file(name, usuario_logado):
 # Faz o processamento da analise do repositorio
 def processing(repository, name):
     try:
-        usuario_logado = json.loads(session.get("usuario_logado"))
         # Class that represents a repository analysis
         analysis = CheckCommits(repository, name)
 
@@ -70,7 +67,7 @@ def processing(repository, name):
         try: 
             # Save frequencyOfEachFile in a json file
             singleName = name + ".json"
-            user_directory = Constant.PATH_JSON + '/' + str(usuario_logado['id'])
+            user_directory = Constant.PATH_JSON + '/' + str(g.user['id'])
             fileName = user_directory + '/' + name + '.json'
             #Create the user directory if not existe
             Util.CreateDirectoryIfNotExists(user_directory)
@@ -81,7 +78,7 @@ def processing(repository, name):
             print( "Error when try to save the json file")
 
         print( "Processing word cloud...")
-        analysis.generateWordCloud(usuario_logado['id'])
+        analysis.generateWordCloud(g.user['id'])
 
         after =  datetime.datetime.now()
         print("The wordcloud was generated with success!")
@@ -110,45 +107,27 @@ def dados_do_repositorio(id):
 @bp.route("/listar")
 @login_required
 def listar():
-    usuario_logado = json.loads(session.get("usuario_logado"))
-
-    # Converte para objeto
-    usuario = Usuario( usuario_logado["id"], usuario_logado["name"], usuario_logado["username"], 
-            usuario_logado["password"], usuario_logado["image"])
-
     #Carrega repositorios registrados pelo usuario
-    lista_repositorios = lista_repositorios_usuario(usuario_logado["id"])
+    lista_repositorios = lista_repositorios_usuario(g.user["id"])
         
-    return render_template("repositorio/listar.html", usuario = usuario.username, 
-            profilePic=usuario.image, titulo="Repositorios", repositorios=lista_repositorios)
+    return render_template("repositorio/listar.html", usuario = g.user['username'], 
+            profilePic=g.user['image'], titulo="Repositorios", repositorios=lista_repositorios)
 
 """ Mostra a lista de repositorios  """
 @bp.route("/listar")
 @login_required
 def listar_todos():
-    usuario_logado = json.loads(session.get("usuario_logado"))
-
-    # Converte para objeto
-    usuario = Usuario( usuario_logado["id"], usuario_logado["name"], usuario_logado["username"], 
-            usuario_logado["password"], usuario_logado["image"])
-
-    #Carrega usuarios registrados no sistema
+    #Carrega repositorios registrados no sistema
     db = get_db()
     query = "SELECT * FROM repository ORDER BY id"
     lista_repositorios = db.execute( query ).fetchall()
         
-    return render_template("repositorio/listar.html", usuario = usuario.username, 
-            profilePic=usuario.image, titulo="Repositorios", repositorios=lista_repositorios)
+    return render_template("repositorio/listar.html", usuario = g.user['username'], 
+            profilePic=g.user['image'], titulo="Repositorios", repositorios=lista_repositorios)
 
 @bp.route("/criar", methods=["GET", "POST"])
 @login_required
 def criar():
-    usuario_logado = json.loads(session.get("usuario_logado"))
-
-    # Converte para objeto
-    usuario = Usuario( usuario_logado["id"], usuario_logado["name"], usuario_logado["username"], 
-            usuario_logado["password"], usuario_logado["image"])
-
     """Create a new repository for the current user."""
     if request.method == "POST":
         name = request.form["name"]
@@ -179,24 +158,18 @@ def criar():
                 if error_processing_repository is not None:
                     flash(error_processing_repository, 'danger')
                     return redirect(url_for("repositorio.listar"))
-            
             db.commit()
             message = "Repositório criado com sucesso!"
             flash(message, 'success')
             return redirect(url_for("repositorio.listar"))
 
-    return render_template("repositorio/criar.html", usuario = usuario.username, 
-            profilePic=usuario.image, titulo="Repositorios")
+    return render_template("repositorio/criar.html", usuario = g.user['username'], 
+            profilePic=g.user['image'], titulo="Repositorios")
         
 # Visualiza as informacoes de um dado repositorio selecionado
 @bp.route("/<int:id>/visualizar", methods=["GET"])
 @login_required
-def visualizar(id):
-    usuario_logado = json.loads(session.get("usuario_logado"))
-    # Converte para objeto
-    usuario = Usuario( usuario_logado["id"], usuario_logado["name"], usuario_logado["username"], 
-            usuario_logado["password"], usuario_logado["image"])
-    
+def visualizar(id):    
     # Dados do reposotorio
     repositorio = dados_do_repositorio(id)
     link = repositorio['link']
@@ -209,7 +182,7 @@ def visualizar(id):
     quantidade_tipos = 0
     counter_list_of_types = []
 
-    fileName = Constant.PATH_JSON + '/' + str(usuario_logado['id']) + '/' + name + ".json"
+    fileName = Constant.PATH_JSON + '/' + str(g.user['id']) + '/' + name + ".json"
 
     with open(fileName, 'r', encoding="utf-8") as jsonFile:
         arquivos = dict(json.loads(jsonFile.read()))
@@ -220,14 +193,13 @@ def visualizar(id):
         quantidade_arquivos = len(arquivos)
         quantidade_tipos = len(counter_list_of_types)
 
-    return render_template("repositorio/visualizar.html", usuario = usuario.username, usuario_id=str(usuario.id), 
-            profilePic=usuario.image, titulo="Detalhes do Repositorio", name=name, arquivos=arquivos_ordenados, 
+    return render_template("repositorio/visualizar.html", usuario = g.user['username'], usuario_id=str(g.user['id']), 
+            profilePic=g.user['image'], titulo="Detalhes do Repositorio", name=name, arquivos=arquivos_ordenados, 
             quantidade_commits=0, quantidade_autores=0, quantidade_arquivos=quantidade_arquivos,quantidade_tipos=quantidade_tipos, 
             lista_tipos=counter_list_of_types, data_criacao=creation_date, data_analises=analysis_date)
 
 # dado um arquivo json convertido em dicionario retorna a lista de extensoes dos arquivos
 def check_tipos_de_arquivos(arquivo):
-    print(arquivo)
     # Percorre todos os itens do dicionario json
     list_of_types = []
     for key, value in arquivo.items():            
@@ -240,12 +212,6 @@ def check_tipos_de_arquivos(arquivo):
 @bp.route("/<int:id>/update", methods=["GET", "POST"])
 @login_required
 def update(id):    
-    usuario_logado = json.loads(session.get("usuario_logado"))
-
-    # Converte para objeto
-    usuario = Usuario( usuario_logado["id"], usuario_logado["name"], usuario_logado["username"], 
-            usuario_logado["password"], usuario_logado["image"])
-
     """Update a repository if the current user."""
     repository = dados_do_repositorio(id)
 
@@ -255,7 +221,6 @@ def update(id):
         creation_date = request.form["creation_date"]
         analysis_date = request.form["analysis_date"]
         analysed = request.form["analysed"] 
-
         error = None
 
         if not name:
@@ -282,24 +247,22 @@ def update(id):
             flash(message, 'success')
             return redirect(url_for("repositorio.listar"))
 
-    return render_template("repositorio/update.html", usuario = usuario.username, 
-            profilePic=usuario.image, titulo="Update Repository", repository=repository)
+    return render_template("repositorio/update.html", usuario = g.user['username'], 
+            profilePic=g.user['image'], titulo="Update Repository", repository=repository)
 
 @bp.route("/<int:id>/delete", methods=["GET"])
 @login_required
 def delete(id):
-    usuario_logado = json.loads(session.get("usuario_logado"))
-
     repository = dados_do_repositorio(id)
-    name_repository = repository["name"]
+    name_repository = repository['name']
 
     db = get_db()
     db.execute("DELETE FROM repository WHERE id = ?", (id,))
     db.commit()
     
     #TODO remover os arquivos img e json do repository correspondente
-    delete_img_file(name_repository, usuario_logado)
-    delete_json_file(name_repository, usuario_logado)
+    delete_img_file(name_repository, g.user['id'])
+    delete_json_file(name_repository, g.user['id'])
 
     message = "Repositório removido com sucesso!"
     flash(message, 'success')

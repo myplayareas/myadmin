@@ -6,6 +6,12 @@ import os
 from subprocess import Popen, PIPE, STDOUT
 from time import sleep
 from tqdm import tqdm
+from json import JSONEncoder
+
+# Classe que converte Objeto em JSON
+class MyEncoder(JSONEncoder):
+        def default(self, o):
+            return o.__dict__    
 
 class Progress(git.remote.RemoteProgress):
     def update(self, op_code, cur_count, max_count=None, message=''):
