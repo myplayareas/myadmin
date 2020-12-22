@@ -7,6 +7,9 @@ from subprocess import Popen, PIPE, STDOUT
 from time import sleep
 from tqdm import tqdm
 from json import JSONEncoder
+import shutil
+import subprocess
+from subprocess import Popen, PIPE, STDOUT
 
 # Classe que converte Objeto em JSON
 class MyEncoder(JSONEncoder):
@@ -19,7 +22,7 @@ class Progress(git.remote.RemoteProgress):
 
 class MyClone: 
     def __init__(self, repository_name, git_remote, git_root):
-        self.repository = repository
+        self.repository = repository_name
         self.git_remote = git_remote
         self.git_root = git_root
     
@@ -97,11 +100,36 @@ class Util:
             os.makedirs(path)
 
     @staticmethod
+    def CreateDirectory(path):
+        if os.path.exists(path):
+            # Remove the folder completelly
+            shutil.rmtree(path, ignore_errors=True)
+            # Create the new folder
+            os.makedirs(path)
+
+    @staticmethod
     def DeleteFileIfExist(path):
         if os.path.exists(path):
             os.remove(path)
         else:
             print("The file does not exist")
+
+
+    @staticmethod
+    def run_command(cmd, check=False, timeout=30, shell=False, log=None):
+        try:
+            proc = subprocess.Popen(cmd, shell=shell, start_new_session=True, stdout = subprocess.PIPE, stderr=subprocess.STDOUT)
+            proc_stdout, proc_stderr = proc.communicate()
+        except subprocess.TimeoutExpired as e:
+            os.killpg(proc.pid, -9)
+            
+        completed = subprocess.CompletedProcess(args=cmd,returncode=proc.returncode,stdout=proc_stdout,stderr=proc_stderr)
+
+        if check and proc.returncode != 0:
+            print(f"{completed.args}, {completed.stdout}, {completed.stderr},{completed.returncode}")
+
+        return completed 
+
 
 from pathlib import Path
 
