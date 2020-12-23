@@ -1,0 +1,164 @@
+{"header" : {
+  "cloc_url"           : "github.com/AlDanial/cloc",
+  "cloc_version"       : "1.76",
+  "elapsed_seconds"    : 1.05903196334839,
+  "n_files"            : 30,
+  "n_lines"            : 4584,
+  "files_per_second"   : 28.3277568933308,
+  "lines_per_second"   : 4328.48125330095,
+  "report_file"        : "sysrepomsr.json"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/pytest_report_test_utilities.html" :{
+  "blank": 63,
+  "comment": 0,
+  "code": 1177,
+  "language": "HTML"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/pytest_report_test_check_commits.html" :{
+  "blank": 62,
+  "comment": 0,
+  "code": 492,
+  "language": "HTML"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/coverage_html.js" :{
+  "blank": 76,
+  "comment": 86,
+  "code": 427,
+  "language": "JavaScript"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/_Users_armandosoaressousa_git_sysrepomsr_services_utilities_py.html" :{
+  "blank": 0,
+  "comment": 0,
+  "code": 271,
+  "language": "HTML"},
+"/Users/armandosoaressousa/git/sysrepomsr/services/utilities.py" :{
+  "blank": 33,
+  "comment": 8,
+  "code": 166,
+  "language": "Python"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/test_utilities_py.html" :{
+  "blank": 0,
+  "comment": 0,
+  "code": 156,
+  "language": "HTML"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/sysrepomsr.json" :{
+  "blank": 0,
+  "comment": 0,
+  "code": 154,
+  "language": "JSON"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/style.css" :{
+  "blank": 143,
+  "comment": 3,
+  "code": 145,
+  "language": "CSS"},
+"/Users/armandosoaressousa/git/sysrepomsr/treemap/show.py" :{
+  "blank": 27,
+  "comment": 11,
+  "code": 144,
+  "language": "Python"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/_Users_armandosoaressousa_git_sysrepomsr_services_check_commits_py.html" :{
+  "blank": 0,
+  "comment": 0,
+  "code": 118,
+  "language": "HTML"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/index.html" :{
+  "blank": 0,
+  "comment": 0,
+  "code": 112,
+  "language": "HTML"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/test_check_commits_py.html" :{
+  "blank": 0,
+  "comment": 0,
+  "code": 110,
+  "language": "HTML"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/test_utilities.py" :{
+  "blank": 10,
+  "comment": 4,
+  "code": 78,
+  "language": "Python"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/__init___py.html" :{
+  "blank": 0,
+  "comment": 0,
+  "code": 64,
+  "language": "HTML"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/jquery.hotkeys.js" :{
+  "blank": 18,
+  "comment": 17,
+  "code": 64,
+  "language": "JavaScript"},
+"/Users/armandosoaressousa/git/sysrepomsr/main.py" :{
+  "blank": 10,
+  "comment": 2,
+  "code": 49,
+  "language": "Python"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/test_check_commits.py" :{
+  "blank": 5,
+  "comment": 1,
+  "code": 40,
+  "language": "Python"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/jquery.isonscreen.js" :{
+  "blank": 6,
+  "comment": 8,
+  "code": 39,
+  "language": "JavaScript"},
+"/Users/armandosoaressousa/git/sysrepomsr/services/check_commits.py" :{
+  "blank": 4,
+  "comment": 11,
+  "code": 39,
+  "language": "Python"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/general_information.py" :{
+  "blank": 9,
+  "comment": 10,
+  "code": 33,
+  "language": "Python"},
+"/Users/armandosoaressousa/git/sysrepomsr/README.md" :{
+  "blank": 4,
+  "comment": 0,
+  "code": 33,
+  "language": "Markdown"},
+"/Users/armandosoaressousa/git/sysrepomsr/treemap/teste1.py" :{
+  "blank": 0,
+  "comment": 0,
+  "code": 9,
+  "language": "Python"},
+"/Users/armandosoaressousa/git/sysrepomsr/json/analise.json" :{
+  "blank": 0,
+  "comment": 0,
+  "code": 7,
+  "language": "JSON"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/.pytest_cache/README.md" :{
+  "blank": 3,
+  "comment": 0,
+  "code": 5,
+  "language": "Markdown"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/jquery.min.js" :{
+  "blank": 0,
+  "comment": 1,
+  "code": 3,
+  "language": "JavaScript"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/jquery.tablesorter.min.js" :{
+  "blank": 1,
+  "comment": 0,
+  "code": 1,
+  "language": "JavaScript"},
+"/Users/armandosoaressousa/git/sysrepomsr/json/myadmin.json" :{
+  "blank": 0,
+  "comment": 0,
+  "code": 1,
+  "language": "JSON"},
+"/Users/armandosoaressousa/git/sysrepomsr/json/systagram.json" :{
+  "blank": 0,
+  "comment": 0,
+  "code": 1,
+  "language": "JSON"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/jquery.ba-throttle-debounce.min.js" :{
+  "blank": 0,
+  "comment": 8,
+  "code": 1,
+  "language": "JavaScript"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/status.json" :{
+  "blank": 0,
+  "comment": 0,
+  "code": 1,
+  "language": "JSON"},
+"SUM": {
+  "blank": 474,
+  "comment": 170,
+  "code": 3940,
+  "nFiles": 30} }
