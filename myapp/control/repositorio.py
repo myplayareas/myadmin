@@ -109,7 +109,6 @@ def dados_do_repositorio(id):
 def listar():
     #Carrega repositorios registrados pelo usuario
     lista_repositorios = lista_repositorios_usuario(g.user["id"])
-        
     return render_template("repositorio/listar.html", usuario = g.user['username'], 
             profilePic=g.user['image'], titulo="Repositorios", repositorios=lista_repositorios)
 

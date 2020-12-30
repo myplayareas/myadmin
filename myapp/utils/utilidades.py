@@ -214,12 +214,12 @@ class DisplayablePath(object):
 #    print(path.displayable())
 
 class Constant:
-    PATH_MYADMIN = '/Users/armandosoaressousa/git/myadmin'
-    PATH_MYAPP = '/Users/armandosoaressousa/git/myadmin/myapp'
-    PATH_STATIC = '/Users/armandosoaressousa/git/myadmin/myapp/static'
-    PATH_IMG = '/Users/armandosoaressousa/git/myadmin/myapp/static/img'
-    PATH_JSON = '/Users/armandosoaressousa/git/myadmin/myapp/static/json'
-    PATH_UPLOADS = '/Users/armandosoaressousa/git/myadmin/myapp/static/uploads'
+    PATH_MYADMIN = os.path.abspath(os.getcwd())
+    PATH_MYAPP = PATH_MYADMIN + '/myapp'
+    PATH_STATIC = PATH_MYADMIN + '/myapp/static'
+    PATH_IMG = PATH_MYADMIN + '/myapp/static/img'
+    PATH_JSON = PATH_MYADMIN + '/myapp/static/json'
+    PATH_UPLOADS = PATH_MYADMIN + '/myapp/static/uploads'
 
 #git_remote = 'https://github.com/armandossrecife/sysdemo.git'
 #git_root = '/Users/armandosoaressousa/git/myadmin/temp/sysdemo'

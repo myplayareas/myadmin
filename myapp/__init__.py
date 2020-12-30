@@ -7,6 +7,7 @@ from myapp.control import auth
 from myapp.control import dashboard
 from myapp.control import usuario
 from myapp.control import repositorio
+from myapp.utils.utilidades import Constant
 
 def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""
@@ -33,6 +34,16 @@ def create_app(test_config=None):
 
     @app.route("/sobre")
     def hello():
+        print('Diretorio da app: {}'. format(os.path.dirname(app.instance_path)))    
+        print('Myapp path: {}'.format(app.root_path))
+        print('App instance path: {}'.format(app.instance_path))
+        print('')
+        print('myadmin: {}'.format(Constant.PATH_MYADMIN))
+        print('myapp: {}'.format(Constant.PATH_MYAPP))
+        print('static: {}'.format(Constant.PATH_STATIC))
+        print('uploads: {}'.format(Constant.PATH_UPLOADS))
+        print('img: {}'.format(Constant.PATH_IMG))
+        print('json: {}'.format(Constant.PATH_JSON))    
         return "Aplicacao Web Python usando Flask"
 
     db.init_app(app)
