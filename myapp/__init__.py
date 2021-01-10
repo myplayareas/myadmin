@@ -8,6 +8,10 @@ from myapp.control import dashboard
 from myapp.control import usuario
 from myapp.control import repositorio
 from myapp.utils.utilidades import Constant
+import os
+import ssl # para garantir o request https do notebook da máquina cliente
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""
@@ -18,6 +22,8 @@ def create_app(test_config=None):
         # store the database in the instance folder
         DATABASE=os.path.join(app.instance_path, "myapp.sqlite"),
     )
+    # cria um contexto para chamadas do request https da máquina cliente\\n\",\n",
+    ssl._create_default_https_context = ssl._create_unverified_context
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -44,7 +50,23 @@ def create_app(test_config=None):
         print('uploads: {}'.format(Constant.PATH_UPLOADS))
         print('img: {}'.format(Constant.PATH_IMG))
         print('json: {}'.format(Constant.PATH_JSON))    
+
         return "Aplicacao Web Python usando Flask"
+
+    @app.route("/email")
+    def email():
+        message = Mail(from_email='armando@ufpi.edu.br',to_emails='armando.sousa@gmail.com',
+        subject='Mensagem enviada pelo Myaap',
+        html_content='<strong>Esta é uma mensagem de teste enviada pela aplicação MyApp</strong>')
+        try:
+            sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+            response = sg.send(message)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+        except Exception as e:
+            print(e.message)
+        return "E-mail enviado com sucesso!"
 
     db.init_app(app)
 

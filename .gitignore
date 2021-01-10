@@ -19,3 +19,4 @@ html/webtreemap.css
 html/webtreemap.js
 git_churn
 .gitignore
+sendgrid.env
