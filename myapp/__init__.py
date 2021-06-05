@@ -12,6 +12,8 @@ import os
 import ssl # para garantir o request https do notebook da máquina cliente
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+import nexmo
+import datetime
 
 def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""
@@ -67,6 +69,24 @@ def create_app(test_config=None):
         except Exception as e:
             print(e.message)
         return "E-mail enviado com sucesso!"
+
+    # nexmo
+    @app.route("/sms")
+    def sms():
+        try:
+            client = nexmo.Client(key=os.environ.get('NEXMO_KEY') , secret=os.environ.get('NEXMO_SECRET'))
+
+            data = datetime.datetime.now()
+            mensagem = 'SMS API from Myapp. ' + str(data) + ' by Armando Soares'
+            client.send_message({
+                'from': 'Vonage APIs',
+                'to': '5586994693558',
+                'text': mensagem,
+            })      
+            print('SMS enviado com sucesso as {}'.format(datetime.datetime.now()))
+        except Exception as e:
+            print(e.message)
+        return "SMS enviado com sucesso!"
 
     db.init_app(app)
 

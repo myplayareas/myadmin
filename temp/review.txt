@@ -1,0 +1,26 @@
+# Análise de dívida técnica de código
+
+# 1. model/entidades.py
+# - Revisar o MyEncoder(JSONEncoder). Classe que converte objeto em Dictionary. Dado um objeto retorna um dictionary. 
+# Impacto baixo: dois arquivos (entidades.py e auth.py)
+
+# Sugestão de mudanca: mudar nome da classe
+
+# Possíveis códigos:
+# Dado um objeto retorna a estrutura em json
+def _modelo_objeto_para_json(objeto):
+    # converte o objeto  em um dictionary
+    return objeto.__dict__
+
+# Dada uma lista de objetos salva em caminho um arquivo json de objetos
+def objetos_para_json(objetos, caminho):
+    # Cria um arquivo do tipo json
+    with open(caminho, mode='w') as arquivo:
+        # Faz o dump de objetos no arquivo json
+        json.dump(objetos, arquivo, default=_modelo_objetos_para_json)
+
+
+
+
+
+
