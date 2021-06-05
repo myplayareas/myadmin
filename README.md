@@ -6,37 +6,35 @@ It was created using the flask framework (https://flask.palletsprojects.com) and
 
 1. Clone the repository
 
-2. Configure environment variables
-```
-export FLASK_APP=myapp
-export FLASK_ENV=development
-```
-
-3. Configure email client
+2. Configure email client
 ```
 echo "export SENDGRID_API_KEY='YOUR_API_KEY'" > sendgrid.env
 echo "sendgrid.env" >> .gitignore
 source ./sendgrid.env
 ```
 
-4. Install dependencies
+3. Install dependencies
 ```
 pip install pydriller
 pip install wordcloud
 pip install sendgrid
 ```
+3. Set environment variables
+```
+. setvariables.sh
+```
 
-5. Restart database
+4. Restart database (optional)
 ```
 flask init-db
 ```
 
-6. Run application
+5. Run application
 ```
 flask run
 ```
 
-7. How to perform application testing in myadmin app?
+6. How to perform application testing in myadmin app?
 ```
 pip install pytest pytest-html
 pip install coverage
@@ -44,34 +42,34 @@ cd tests
 ./my_testes.sh
 ```
 
-8. Functional regression tests that must be performed:
+7. Functional regression tests that must be performed:
 
-8.1 Login (OK)
+7.1 Login (OK)
 
-8.2 I forgot my password
+7.2 I forgot my password
 
-8.3 Register a new user
+7.3 Register a new user
 
-8.4 Check all elements of the dashboard
+7.4 Check all elements of the dashboard
 
-8.5 List members (OK)
+7.5 List members (OK)
 
-8.6 List of repositories of the logged in user (OK)
+7.6 List of repositories of the logged in user (OK)
 
-8.7 View details of the first repository in the list of repositories
+7.7 View details of the first repository in the list of repositories
 
-8.8 Check all elements of the visualized repository
+7.8 Check all elements of the visualized repository
 
-8.9 View user profile
+7.9 View user profile
 
-8.10 Change user name and email
+7.10 Change user name and email
 
-8.11 Change user image
+7.11 Change user image
 
-8.12 Create new repository
+7.12 Create new repository
 
-8.13 View created repository
+7.13 View created repository
 
-8.14 Change repository name
+7.14 Change repository name
 
-8.15 Delete repository
+7.15 Delete repository
