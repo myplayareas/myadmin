@@ -19,22 +19,22 @@ pip install pydriller
 pip install wordcloud
 pip install sendgrid
 ```
-3. Set environment variables
+4. Set environment variables
 ```
 . setvariables.sh
 ```
 
-4. Restart database (optional)
+5. Restart database (optional)
 ```
 flask init-db
 ```
 
-5. Run application
+6. Run application
 ```
 flask run
 ```
 
-6. How to perform application testing in myadmin app?
+7. How to perform application testing in myadmin app?
 ```
 pip install pytest pytest-html
 pip install coverage
@@ -42,34 +42,34 @@ cd tests
 ./my_testes.sh
 ```
 
-7. Functional regression tests that must be performed:
+8. Functional regression tests that must be performed:
 
-7.1 Login (OK)
+8.1 Login (OK)
 
-7.2 I forgot my password
+8.2 I forgot my password
 
-7.3 Register a new user
+8.3 Register a new user
 
-7.4 Check all elements of the dashboard
+8.4 Check all elements of the dashboard
 
-7.5 List members (OK)
+8.5 List members (OK)
 
-7.6 List of repositories of the logged in user (OK)
+8.6 List of repositories of the logged in user (OK)
 
-7.7 View details of the first repository in the list of repositories
+8.7 View details of the first repository in the list of repositories
 
-7.8 Check all elements of the visualized repository
+8.8 Check all elements of the visualized repository
 
-7.9 View user profile
+8.9 View user profile
 
-7.10 Change user name and email
+8.10 Change user name and email
 
-7.11 Change user image
+8.11 Change user image
 
-7.12 Create new repository
+8.12 Create new repository
 
-7.13 View created repository
+8.13 View created repository
 
-7.14 Change repository name
+8.14 Change repository name
 
-7.15 Delete repository
+8.15 Delete repository
