@@ -1,5 +1,5 @@
 import datetime
-from pydriller import RepositoryMining
+from pydriller import Repository
 from collections import Counter
 from wordcloud import WordCloud
 from myapp.utils.utilidades import Util
@@ -18,11 +18,11 @@ class CheckCommits:
     # dictionary = {'hash': ['author', 'date of commit', [file1, file2, ...]]}
     def dictionaryWithAllCommmits(self):
         dictionaryAux = {}
-        for commit in RepositoryMining(self.repository).traverse_commits():
+        for commit in Repository(self.repository).traverse_commits():
             commitAuthorNameFormatted = '{}'.format(commit.author.name)
             commitAuthorDateFormatted = '{}'.format(commit.author_date)
             listFilesModifiedInCommit = []
-            for modification in commit.modifications:
+            for modification in commit.modified_files:
                 itemMofied = '{}'.format(modification.filename)
                 listFilesModifiedInCommit.append(itemMofied)
             dictionaryAux[commit.hash] = [commitAuthorNameFormatted, commitAuthorDateFormatted, listFilesModifiedInCommit] 

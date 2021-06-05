@@ -1,11 +1,11 @@
 {"header" : {
   "cloc_url"           : "github.com/AlDanial/cloc",
   "cloc_version"       : "1.76",
-  "elapsed_seconds"    : 1.05931901931763,
+  "elapsed_seconds"    : 1.04431200027466,
   "n_files"            : 30,
   "n_lines"            : 4584,
-  "files_per_second"   : 28.3200805922704,
-  "lines_per_second"   : 4327.30831449891,
+  "files_per_second"   : 28.7270470818203,
+  "lines_per_second"   : 4389.49279410214,
   "report_file"        : "sysrepomsr.json"},
 "/Users/armandosoaressousa/git/sysrepomsr/tests/pytest_report_test_utilities.html" :{
   "blank": 63,
@@ -132,12 +132,17 @@
   "comment": 1,
   "code": 3,
   "language": "JavaScript"},
-"/Users/armandosoaressousa/git/sysrepomsr/json/systagram.json" :{
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/jquery.tablesorter.min.js" :{
+  "blank": 1,
+  "comment": 0,
+  "code": 1,
+  "language": "JavaScript"},
+"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/status.json" :{
   "blank": 0,
   "comment": 0,
   "code": 1,
   "language": "JSON"},
-"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/status.json" :{
+"/Users/armandosoaressousa/git/sysrepomsr/json/systagram.json" :{
   "blank": 0,
   "comment": 0,
   "code": 1,
@@ -150,11 +155,6 @@
 "/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/jquery.ba-throttle-debounce.min.js" :{
   "blank": 0,
   "comment": 8,
-  "code": 1,
-  "language": "JavaScript"},
-"/Users/armandosoaressousa/git/sysrepomsr/tests/htmlcov/jquery.tablesorter.min.js" :{
-  "blank": 1,
-  "comment": 0,
   "code": 1,
   "language": "JavaScript"},
 "SUM": {
