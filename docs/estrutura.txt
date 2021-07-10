@@ -1,0 +1,67 @@
+📦myadmin
+┣ 📂docs
+┃ ┣ 📜Dashboard Repository.png
+┃ ┣ 📜Initial Page.png
+┃ ┣ 📜List repositories.png
+┃ ┣ 📜Login.png
+┃ ┣ 📜UseCase Diagram MyAdmin.asta
+┃ ┗ 📜UseCase MyAdmin.png
+┣ 📂instance (instância do banco local da aplicação)
+┃ ┗ 📜myapp.sqlite
+┣ 📂myapp
+┃ ┣ 📂config (configuração e criação do banco de dados da aplicação)
+┃ ┃ ┣ 📜db.py
+┃ ┃ ┗ 📜schema.sql
+┃ ┣ 📂control
+┃ ┃ ┣ 📜auth.py
+┃ ┃ ┣ 📜dashboard.py
+┃ ┃ ┣ 📜repositorio.py
+┃ ┃ ┗ 📜usuario.py
+┃ ┣ 📂model
+┃ ┃ ┗ 📜entidades.py
+┃ ┣ 📂services
+┃ ┃ ┣ 📜check_commits.py
+┃ ┃ ┗ 📜gateway.py
+┃ ┣ 📂static
+┃ ┃ ┣ 📂dist (estrutura html/css/js da aplicação web)
+┃ ┃ ┃ ┣ 📂img
+┃ ┃ ┣ 📂img (guarda as imagens associadas a cada usuário)
+┃ ┃ ┣ 📂json (json associados a cada repositorio de cada usuário)
+┃ ┃ ┣ 📂plugins
+┃ ┃ ┃ ┣ 📂icheck-bootstrap
+┃ ┃ ┃ ┣ 📂jquery
+┃ ┃ ┗ 📂uploads (guarda os avatares de cada usuário)
+┃ ┣ 📂templates
+┃ ┃ ┣ 📂auth (páginas de autenticação, login e registro de usuário)
+┃ ┃ ┃ ┣ 📜forgot-password.html
+┃ ┃ ┃ ┣ 📜login.html
+┃ ┃ ┃ ┗ 📜register.html
+┃ ┃ ┣ 📂dashboard (página principal da aplicação e profile do usuário)
+┃ ┃ ┃ ┣ 📜profile.html
+┃ ┃ ┃ ┗ 📜starter.html
+┃ ┃ ┣ 📂repositorio (páginas crud do repositório)
+┃ ┃ ┃ ┣ 📜criar.html
+┃ ┃ ┃ ┣ 📜listar.html
+┃ ┃ ┃ ┣ 📜update.html
+┃ ┃ ┃ ┗ 📜visualizar.html
+┃ ┃ ┣ 📂usuario (páginas crud do usuário)
+┃ ┃ ┃ ┣ 📜imagem.html
+┃ ┃ ┃ ┗ 📜listar.html
+┃ ┃ ┣ 📜LICENSE
+┃ ┃ ┗ 📜base.html (arquivo html base dos templates de visão da aplicação)
+┃ ┣ 📂utils (scripts de utilidade da aplicação)
+┃ ┃ ┗ 📜utilidades.py
+┃ ┗ 📜__init__.py
+┣ 📂tests (script principal da aplicação - cria e configura uma instância da aplicação flex)
+┃ ┣ 📜__init__.py (script de definição do módulo de testes da aplicação)
+┃ ┣ 📜my_testes.sh (script bash de execução dos testes)
+┃ ┣ 📜pytest_report_test_check_commits.html
+┃ ┣ 📜pytest_report_test_myadmin.html
+┃ ┣ 📜pytest_report_test_utilities.html
+┃ ┣ 📜test_check_commits.py
+┃ ┣ 📜test_myadmin.py
+┃ ┗ 📜test_utilities.py
+┣ 📜README.md
+┣ 📜setup.cfg
+┣ 📜setup.py
+┗ 📜setvariables.sh
