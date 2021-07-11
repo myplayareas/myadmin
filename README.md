@@ -6,7 +6,7 @@ It was created using the flask framework (https://flask.palletsprojects.com) and
 
 1. Clone the repository
 
-2. Configure email client
+2. Configure email client (optional)
 ```
 echo "export SENDGRID_API_KEY='YOUR_API_KEY'" > sendgrid.env
 echo "sendgrid.env" >> .gitignore
