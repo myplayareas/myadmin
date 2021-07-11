@@ -52,3 +52,12 @@ class CheckCommits:
         #Create the user directory if not existe
         Util.CreateDirectoryIfNotExists(user_directory)
         wordcloud.to_file(fileName)
+
+    def amount_of_commits_and_authors(self):
+        contador = 0
+        list_temp = list()
+        for commit in Repository(self.repository).traverse_commits():
+            list_temp.append(commit.author.name)
+            contador += 1
+        authors = set(list_temp)
+        return contador, len(authors)
