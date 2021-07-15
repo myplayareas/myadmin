@@ -53,11 +53,17 @@ class CheckCommits:
         Util.CreateDirectoryIfNotExists(user_directory)
         wordcloud.to_file(fileName)
 
-    def amount_of_commits_and_authors(self):
-        contador = 0
-        list_temp = list()
+    def save_commits_and_authors_in_json(self, user_id):
+        list_of_commits = list()
+        list_of_authors = list()
         for commit in Repository(self.repository).traverse_commits():
-            list_temp.append(commit.author.name)
-            contador += 1
-        authors = set(list_temp)
-        return contador, len(authors)
+            list_of_commits.append(commit.hash)
+            list_of_authors.append(commit.author.name)
+        authors = set(list_of_authors)
+        authors = list(authors)
+        dict_commits = {}
+        dict_commits[self.name] = list_of_commits
+        Util.save_dictionary_in_json_file(self.name, user_id, dict_commits, 'commits')
+        dict_authors = {}
+        dict_authors[self.name] = authors
+        Util.save_dictionary_in_json_file(self.name, user_id, dict_authors, 'authors')

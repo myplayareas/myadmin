@@ -10,6 +10,7 @@ from json import JSONEncoder
 import shutil
 import subprocess
 from subprocess import Popen, PIPE, STDOUT
+import json
 
 # Classe que converte Objeto em JSON
 class MyEncoder(JSONEncoder):
@@ -129,6 +130,22 @@ class Util:
             print(f"{completed.args}, {completed.stdout}, {completed.stderr},{completed.returncode}")
 
         return completed 
+
+    @staticmethod
+    def save_dictionary_in_json_file(name, user_id, my_dictionary, my_type): 
+        try: 
+            # Save my_dictionary in a json file
+            singleName = name + "_" + my_type + ".json"
+            user_directory = Constant.PATH_JSON + '/' + str(user_id)
+            fileName = user_directory + '/' + singleName
+            #Create the user directory if not existe
+            Util.CreateDirectoryIfNotExists(user_directory)
+            with open(fileName, 'w', encoding="utf-8") as jsonFile:
+                json.dump(my_dictionary, jsonFile)
+            print("The file {} was saved with success!".format( singleName ))
+        except: 
+            print( "Error when try to save the json file")
+
 
 
 from pathlib import Path

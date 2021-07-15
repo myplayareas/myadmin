@@ -63,7 +63,7 @@ def processing(repository, name):
             print(frequencyOfEachFile)
         except:
             print("Error in analysis.counterWithFrequencyOfFile()")
-
+        
         try: 
             # Save frequencyOfEachFile in a json file
             singleName = name + ".json"
@@ -79,9 +79,14 @@ def processing(repository, name):
 
         print( "Processing word cloud...")
         analysis.generateWordCloud(g.user['id'])
+        print("The wordcloud was generated with success!")
+
+        try:
+            analysis.save_commits_and_authors_in_json(g.user['id'])
+        except: 
+            print("Error during save commits and authors")
 
         after =  datetime.datetime.now()
-        print("The wordcloud was generated with success!")
         print("Finished on: ", after)
     except:
         print("Something wrong!")
@@ -180,8 +185,12 @@ def visualizar(id):
     quantidade_arquivos = 0
     quantidade_tipos = 0
     counter_list_of_types = []
+    list_of_commmits = []
+    list_of_authors = []
 
     fileName = Constant.PATH_JSON + '/' + str(g.user['id']) + '/' + name + ".json"
+    fileCommits = Constant.PATH_JSON + '/' + str(g.user['id']) + '/' + name + '_commits' + ".json"
+    fileAuthors = Constant.PATH_JSON + '/' + str(g.user['id']) + '/' + name + '_authors' + ".json"
 
     with open(fileName, 'r', encoding="utf-8") as jsonFile:
         arquivos = dict(json.loads(jsonFile.read()))
@@ -192,10 +201,21 @@ def visualizar(id):
         quantidade_arquivos = len(arquivos)
         quantidade_tipos = len(counter_list_of_types)
 
+    with open(fileCommits, 'r', encoding="utf-8") as jsonFileCommits:
+        arquivo_commits = dict(json.loads(jsonFileCommits.read() ) )
+        quantidade_commits = len(arquivo_commits[name])
+        list_of_commits = arquivo_commits[name]
+
+    with open(fileAuthors, 'r', encoding="utf-8") as jsonFileAuthors:
+        arquivo_authors = dict(json.loads(jsonFileAuthors.read() ) )
+        quantidade_autores = len(arquivo_authors[name])
+        list_of_authors = arquivo_authors[name]
+
     return render_template("repositorio/visualizar.html", usuario = g.user['username'], usuario_id=str(g.user['id']), 
             profilePic=g.user['image'], titulo="Detalhes do Repositorio", name=name, arquivos=arquivos_ordenados, 
-            quantidade_commits=0, quantidade_autores=0, quantidade_arquivos=quantidade_arquivos,quantidade_tipos=quantidade_tipos, 
-            lista_tipos=counter_list_of_types, data_criacao=creation_date, data_analises=analysis_date)
+            quantidade_commits=quantidade_commits, quantidade_autores=quantidade_autores, quantidade_arquivos=quantidade_arquivos,
+            quantidade_tipos=quantidade_tipos, lista_tipos=counter_list_of_types, data_criacao=creation_date, data_analises=analysis_date, 
+            lista_commits=list_of_commits, lista_autores=list_of_authors)
 
 # dado um arquivo json convertido em dicionario retorna a lista de extensoes dos arquivos
 def check_tipos_de_arquivos(arquivo):
