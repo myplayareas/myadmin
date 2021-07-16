@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block conteudo %}
+      <div class="container-fluid">
+      
+        <h5 class="mb-2">Info Box: {{ name}}</h5>
+        <div class="row">
+          <div class="col-md">
+            <!-- Table with files most changed -->
+            <div class="card card-widget">              
+                <div class="card-header">
+                  <h5 class="card-title">Arquivos mais alterados</h5>
+                  <div class="card-tools">                
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                  <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+              <div class="card-body table-responsive p-0" style="height: 300px;">
+                <table class="table table-head-fixed text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>Arquivo</th>
+                      <th>Frequencia</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {% for key, value in arquivos.items() %}
+                          <tr role="row" class="even">
+                            <td>{{ key }}</td>
+                            <td>{{ value }}</td>
+                          </tr>
+                      {% endfor%}
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+          </div>
+
+          <div class="col-md">
+            <!-- Table with files most changed -->
+              <div class="card card-widget">
+                  <div class="card-header">
+                    <h5 class="card-title">Commits</h5>
+                    <div class="card-tools">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                      </button>
+                      <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                    <!-- /.card-tools -->
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body table-responsive p-0" style="height: 300px;">
+                    <table class="table table-head-fixed text-nowrap">
+                      <thead>
+                        <tr>
+                          <th>Hash</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {% for value in lista_commits %}
+                              <tr role="row" class="even">
+                                <td>{{ value }}</td>
+                              </tr>
+                          {% endfor%}
+                      </tbody>
+                    </table>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-md">
+            <!-- Table with files most changed -->
+              <div class="card card-widget">
+                <div class="card-header">
+                  <h5 class="card-title">Autores</h5>
+                    <div class="card-tools">
+                      <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                      </button>
+                      <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0" style="height: 300px;">
+                  <table class="table table-head-fixed text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>Nome</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for value in lista_autores %}
+                            <tr role="row" class="even">
+                              <td>{{ value }}</td>
+                            </tr>
+                        {% endfor%}
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+          </div>
+
+        </div>
+    
+      </div>
+{% endblock %}

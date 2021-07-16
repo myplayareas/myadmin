@@ -286,3 +286,39 @@ def delete(id):
     message = "Repositório removido com sucesso!"
     flash(message, 'success')
     return redirect(url_for("repositorio.listar"))
+
+# Visualiza as metricas de um dado repositorio selecionado
+@bp.route("/<int:id>/metricas", methods=["GET"])
+@login_required
+def metricas(id):    
+    # Dados do reposotorio
+    repositorio = dados_do_repositorio(id)
+    link = repositorio['link']
+    name = repositorio['name']
+    creation_date = repositorio['creation_date']
+    analysis_date = repositorio['analysis_date']
+    list_of_commmits = []
+    list_of_authors = []
+
+    filePathArquivos = Constant.PATH_JSON + '/' + str(g.user['id']) + '/' + name + ".json"
+    filePathCommits = Constant.PATH_JSON + '/' + str(g.user['id']) + '/' + name + '_commits' + ".json"
+    filePathAuthors = Constant.PATH_JSON + '/' + str(g.user['id']) + '/' + name + '_authors' + ".json"
+
+    with open(filePathArquivos, 'r', encoding="utf-8") as jsonFile:
+        arquivos = dict(json.loads(jsonFile.read()))
+        counter_list_of_types = check_tipos_de_arquivos(arquivos)
+        arquivos_ordenados = dict( sorted(arquivos.items(), key=lambda item: item[1], reverse=True) )
+
+    with open(filePathCommits, 'r', encoding="utf-8") as jsonFileCommits:
+        arquivo_commits = dict(json.loads(jsonFileCommits.read() ) )
+        quantidade_commits = len(arquivo_commits[name])
+        list_of_commits = arquivo_commits[name]
+
+    with open(filePathAuthors, 'r', encoding="utf-8") as jsonFileAuthors:
+        arquivo_authors = dict(json.loads(jsonFileAuthors.read() ) )
+        quantidade_autores = len(arquivo_authors[name])
+        list_of_authors = arquivo_authors[name]
+
+    return render_template("repositorio/metricas.html", usuario = g.user['username'], 
+            profilePic=g.user['image'], titulo="Metricas do Repositorio", name=name, 
+            arquivos=arquivos_ordenados, lista_commits=list_of_commits, lista_autores=list_of_authors)

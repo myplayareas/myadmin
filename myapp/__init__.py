@@ -7,6 +7,7 @@ from myapp.control import auth
 from myapp.control import dashboard
 from myapp.control import usuario
 from myapp.control import repositorio
+from myapp.control import dashboardmetrics
 from myapp.utils.utilidades import Constant
 import ssl # para garantir o request https do notebook da máquina cliente
 from sendgrid import SendGridAPIClient
@@ -106,6 +107,7 @@ def create_app(test_config=None):
     app.register_blueprint(dashboard.bp)
     app.register_blueprint(usuario.bp)
     app.register_blueprint(repositorio.bp)
+    app.register_blueprint(dashboardmetrics.bp)
 
     # Define a rota principal da aplicacao
     app.add_url_rule("/", endpoint="index")
